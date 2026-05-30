@@ -11,10 +11,13 @@ html, body {
 
 /* Estilos generales de la página - aca esta el codigo de la foto*/
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     font-family: Arial, sans-serif;
     background-color: #000000; /* fallback si no carga la imagen */
     color: #ffffff; /* texto blanco para buen contraste */
-    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("../img/gimnasio2.jpeg");
+    background-image: linear-gradient(rgba(61, 61, 61, 0.6), rgba(110, 110, 110, 0.6)), url("../img/gimnasio2.jpeg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -23,24 +26,14 @@ body {
 
 /* Contenedor principal centrado */
 main {
-    max-width: 500px; /* ancho máximo para no estirar demasiado el contenido */
-    margin: 40px auto; /* centra horizontalmente y separa del top */
+    width: min(92%, 760px);
+    max-width: 760px; /* ancho máximo para no estirar demasiado el contenido */
+    margin: 20px auto 20px;
     padding: 40px 20px; /* espacio interno alrededor del contenido */
     text-align: center; /* texto centrado dentro del main */
     background: rgba(0, 0, 0, 0.55); /* tarjeta semitransparente sobre la imagen */
     border-radius: 24px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
-}
-
-/* Logo principal: centrado y con tamaño controlado */
-.logo {
-    display: block; /* permite centrar con margin auto */
-    margin: 0 auto 24px;
-    width: 240px; /* ancho más grande para que el logo destaque */
-    max-width: 100%;
-    height: auto; /* mantiene la proporción original */
-    border-radius: 50%; /* opcional: hace la imagen redonda si el logo lo permite */
-    object-fit: cover;
 }
 
 /* Estilos del cuadro del formulario */
@@ -77,36 +70,128 @@ main {
 }
 
 /* Botón del formulario */
-.login-container button {
+.login-container button,
+.login-link {
     width: 100%;
     padding: 12px 14px;
     border: none;
     border-radius: 10px;
-    background: #ff4d4d; /* color de botón llamativo */
+    background: #1bbe0c83; /* color de botón llamativo */
     color: #ffffff;
     font-weight: 700;
     box-sizing: border-box; /* incluye padding en el ancho total */
     cursor: pointer;
+    display:block; /* para que el enlace se comporte como bloque y ocupe todo el ancho */
+    text-decoration: none; /* elimina subrayado del enlace */
+    text-align: center; /* centra el texto dentro del botón */
 }
 
 /* Efecto hover para el botón */
-.login-container button:hover {
-    background: #ff6b6b;
+.login-container button:hover, .login-link:hover {
+    background: #6bff6bde;
+}
+
+/* Logo principal: centrado y con tamaño controlado */
+.logo {
+    display: block; /* permite centrar con margin auto */
+    margin: 0 auto 24px;
+    width: 240px; /* ancho más grande para que el logo destaque */
+    max-width: 100%;
+    height: auto; /* mantiene la proporción original */
+    border-radius: 50%; /* opcional: hace la imagen redonda si el logo lo permite */
+    object-fit: cover;
 }
 
 /* Estilos de la inicio del sitio */
-.inicio, .pagos {
+.inicio, .pagos, .semana {
     background: rgba(255, 255, 255, 0.08); /* fondo semitransparente para diferenciarlo */
     border: 1px solid rgba(255, 255, 255, 0.15); /* borde suave claro */
     border-radius: 16px; /* esquinas redondeadas */
     padding: 24px; /* espacio dentro del recuadro */
     margin: 24px auto; /* separa del resto y centra el bloque */
     width: 100%;
-    max-width: 360px; /* ancho máximo del formulario */
+    max-width: 520px; /* ancho máximo del bloque */
     box-sizing: border-box; /* incluye padding en el ancho total */
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35); /* sombra para elevarlo visualmente */
     color: #ffffff; /* texto blanco dentro del bloque */
-    text-align: center;}
+    text-align: center;
+}
+
+.pagos p span {
+    background: rgba(255, 77, 77, 0.2);
+    border: 1px solid rgba(255, 77, 77, 0.4);
+    color: #ff6b6b;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-left: 8px;
+}
+
+.semana p {
+    margin: 8px 0;
+    font-weight: 600;
+}
+
+.rutinas {
+    display:flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.rutina-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rutinas h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.rutina-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #4d79ff; /* color de botón para rutinas */
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.rutina-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.95;
+}
+
+.inicio {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    text-align: left;
+    max-width: 580px;
+}
+
+.inicio .logo {
+    width: 220px;
+    max-width: 100%;
+    margin: 0;
+    border-radius: 16px;
+}
+
+.inicio-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.inicio-texto h1,
+.inicio-texto p {
+    margin: 0;
+}
 
 
 /* Pie de página */
@@ -114,6 +199,7 @@ footer {
     text-align: center;
     padding: 16px 0 30px;
     color: rgba(255, 255, 255, 0.7); /* texto más tenue en el footer */
+    margin-top: auto;
 }
 
 footer a {
@@ -178,6 +264,16 @@ footer .social-icon {
     .login-container input,
     .login-container button {
         font-size: 0.95rem;
+    }
+
+    .inicio {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+
+    .inicio-texto {
+        align-items: center;
     }
 
     footer {
