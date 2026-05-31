@@ -1,4 +1,4 @@
-/* Link de volver */
+/* ——— Volver ——— */
 .back-link {
     display: inline-flex;
     align-items: center;
@@ -10,271 +10,209 @@
     border-radius: 8px;
     padding: 6px 14px;
     margin-bottom: 20px;
-    cursor: pointer;
     text-decoration: none;
     transition: background 0.2s ease, color 0.2s ease;
 }
- 
+
 .back-link:hover {
     background: rgba(255, 255, 255, 0.13);
     color: rgba(255, 255, 255, 0.85);
 }
- 
-/* ——— Header de la rutina ——— */
-.rutina-detalle-header {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-    padding: 20px 24px;
-    margin-bottom: 16px;
-    display: flex;
-    
-    flex-direction: column;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 12px;
+
+/* ——— Espaciado de cards apiladas ——— */
+.card {
+    margin-bottom: 14px;
     text-align: left;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
 }
- 
-.rdh-texto h1 {
-    margin: 0 0 2px;
-    font-size: 1.35rem;
+
+/* ——— Header de rutina ——— */
+.rutina-header h1 {
+    margin: 0 0 4px;
+    font-size: 1.3rem;
     font-weight: 800;
 }
- 
-.rdh-texto p {
-    margin: 0;
+
+.rutina-header p {
+    margin: 0 0 14px;
     font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.5);
 }
- 
-.rdh-badges {
+
+.badges {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: 8px;
-}
- 
-.rbadge {
-    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 6px;
     align-items: center;
-    justify-content: center;
-    line-height: normal;
-    border-radius: 20px;
-    padding: 6px 16px;
-    font-size: 0.78rem;
-    font-weight: 700;
+    justify-content: flex-start;
 }
- 
-.rbadge.empuje {
+
+.badge {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 0.76rem;
+    font-weight: 600;
+}
+
+.badge.empuje {
     background: rgba(77, 121, 255, 0.2);
     border: 1px solid rgba(77, 121, 255, 0.4);
     color: #7fa4ff;
 }
- 
-.rbadge.semana {
+
+.badge.semana {
     background: rgba(27, 190, 12, 0.18);
     border: 1px solid rgba(27, 190, 12, 0.35);
     color: #6bff6b;
 }
- 
-.rbadge.duracion {
+
+.badge.duracion {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.18);
     color: rgba(255, 255, 255, 0.65);
 }
- 
-/* ——— Stats de sesión ——— */
-.sesion-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+
+/* ——— Stats row ——— */
+.stats-row {
+    display: flex;
     gap: 10px;
     margin-bottom: 14px;
 }
- 
+
 .stat-box {
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 12px;
-    padding: 14px 10px;
+    flex: 1;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    padding: 14px 8px;
 }
- 
+
 .stat-val {
-    font-size: 1.5rem;
+    display: block;
+    font-size: 1.4rem;
     font-weight: 800;
+    line-height: 1;
+    margin-bottom: 4px;
 }
- 
+
 .stat-lbl {
-    font-size: 0.72rem;
-    color: rgba(255, 255, 255, 0.45);
+    display: block;
+    font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 0.8px;
+    color: rgba(255, 255, 255, 0.45);
 }
- 
-/* ——— Barra de progreso ——— */
-.prog-bloque {
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 12px;
-    padding: 14px 18px;
-    margin-bottom: 18px;
-}
- 
-.prog-top {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
- 
-.prog-lbl {
-    font-size: 0.82rem;
-    color: rgba(255, 255, 255, 0.5);
-}
- 
-.prog-pct {
-    font-size: 0.82rem;
-    font-weight: 700;
-    color: #6bff6b;
-}
- 
-.prog-bg {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-    height: 8px;
-    overflow: hidden;
-}
- 
-.prog-fill {
-    height: 100%;
-    border-radius: 6px;
-    background: #1bbe0c;
-    transition: width 0.35s ease;
-}
- 
-/* ——— Título de sección ——— */
+
+/* ——— Lista de ejercicios ——— */
 .section-title {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     color: rgba(255, 255, 255, 0.4);
-    margin: 0 0 10px;
-    text-align: left;
+    margin: 0 0 12px;
 }
- 
-/* ——— Lista de ejercicios ——— */
-.ejercicios-detalle {
+
+.ejercicios-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-bottom: 18px;
 }
- 
-.ej-fila {
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 12px;
-    
-    display: grid;
-    grid-template-columns: 32px 1fr auto 32px;
-    align-items: center;
+
+.ej-item {
+    display: flex;
+    align-items: flex-start;
     gap: 12px;
-    transition: background 0.2s ease;
-    text-align: left;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
- 
-.ej-fila:hover {
-    background: rgba(255, 255, 255, 0.11);
+
+.ej-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
 }
- 
-.ej-fila.completado {
-    border-color: rgba(107, 255, 107, 0.3);
+
+.ej-img {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.3);
 }
- 
-/* Número del ejercicio */
+
 .ej-num {
-    width: 32px;
-    height: 32px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background: rgba(77, 121, 255, 0.2);
     border: 1px solid rgba(77, 121, 255, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.78rem;
+    font-size: 0.65rem;
     font-weight: 700;
-    color: #7fa4ff;
+    color: #9cb8ff;
     flex-shrink: 0;
-    transition: all 0.2s ease;
 }
- 
-.ej-num.done {
-    background: rgba(27, 190, 12, 0.22);
-    border-color: rgba(107, 255, 107, 0.45);
-    color: #6bff6b;
-}
- 
-/* Info del ejercicio */
+
 .ej-info {
+    flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 3px;
-    min-width: 0;
+    gap: 4px;
 }
- 
+
+.ej-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .ej-nombre {
-    font-size: 0.93rem;
+    font-size: 0.9rem;
     font-weight: 700;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
- 
+
 .ej-musculo {
     font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.42);
+    color: rgba(255, 255, 255, 0.5);
 }
- 
-/* Chips de series / reps / descanso */
+
 .ej-chips {
     display: flex;
-    gap: 6px;
-    align-items: center;
-    flex-shrink: 0;
     flex-wrap: wrap;
-    justify-content: flex-end;
+    gap: 6px;
+    margin-top: 4px;
 }
- 
+
 .chip {
     border-radius: 8px;
-    padding: 4px 10px;
-    font-size: 0.78rem;
+    padding: 3px 10px;
+    font-size: 0.76rem;
     font-weight: 600;
     white-space: nowrap;
 }
- 
+
 .chip.series {
     background: rgba(77, 121, 255, 0.15);
     color: #7fa4ff;
 }
- 
+
 .chip.reps {
-    background: rgba(255, 255, 255, 0.08);
-    color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 109, 255, 0.144);
+    color: rgba(255, 177, 251, 0.7);
 }
- 
+
 .chip.descanso {
     background: rgba(255, 160, 50, 0.15);
     color: #ffb85c;
 }
- 
-/* Botón de check */
+
+/* ——— Botón check (preparado para JS) ——— */
 .check-btn {
     width: 32px;
     height: 32px;
@@ -289,139 +227,60 @@
     font-size: 14px;
     font-weight: 700;
     flex-shrink: 0;
-    transition: all 0.2s ease;
+    margin-top: 2px;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
 }
- 
+
 .check-btn:hover {
-    border-color: rgba(107, 255, 107, 0.4);
-    color: rgba(107, 255, 107, 0.5);
+    border-color: rgba(107, 255, 107, 0.5);
+    color: rgba(107, 255, 107, 0.6);
 }
- 
+
+/* Estados para JS (clases aplicadas por script) */
 .check-btn.done {
     background: rgba(27, 190, 12, 0.25);
     border-color: rgba(107, 255, 107, 0.5);
     color: #6bff6b;
 }
- 
+
+.ej-item.completado {
+    border-bottom-color: rgba(107, 255, 107, 0.15);
+}
+
+.ej-num.done {
+    background: rgba(27, 190, 12, 0.22);
+    border-color: rgba(107, 255, 107, 0.45);
+    color: #6bff6b;
+}
+
 /* ——— Notas del entrenador ——— */
 .notas-entrenador {
     background: rgba(255, 160, 50, 0.07);
-    border: 1px solid rgba(255, 160, 50, 0.2);
-    border-radius: 12px;
-    padding: 14px 18px;
-    margin-bottom: 18px;
-    text-align: left;
+    border-color: rgba(255, 160, 50, 0.2);
 }
- 
+
 .notas-entrenador p {
     margin: 0;
     font-size: 0.85rem;
-    color: rgba(255, 200, 100, 0.82);
+    color: rgba(255, 200, 100, 0.85);
     line-height: 1.65;
 }
- 
+
 .notas-entrenador strong {
     color: #ffb85c;
 }
- 
-/* ——— Botón finalizar ——— */
-.finalizar-btn {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 12px;
-    background: #1bbe0c83;
-    color: #ffffff;
-    font-weight: 700;
-    box-sizing: border-box;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.2s ease;
-    display:block;
-    text-decoration: none;
-    text-align: center;
-}
- 
-.finalizar-btn:hover {
-    background: #6bff6bde;
-}
- 
+
 /* ——— Responsive ——— */
-@media (max-width: 600px) {
-    .rutina-detalle-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
- 
-    .ej-fila {
-        grid-template-columns: 28px 1fr 28px;
-        grid-template-rows: auto auto;
-    }
- 
-    .ej-chips {
-        grid-column: 1 / -1;
-        justify-content: flex-start;
-        padding-left: 40px;
-    }
- 
-    .sesion-stats {
-        grid-template-columns: repeat(3, 1fr);
-    }
+@media (min-width: 481px) {
+    .badge { font-size: 0.85rem; }
 }
- 
+
 @media (max-width: 480px) {
-    .rdh-texto h1 {
-        font-size: 1.1rem;
-    }
- 
-    .ej-nombre {
-        font-size: 0.85rem;
-    }
- 
-    .chip {
-        font-size: 0.72rem;
-        padding: 3px 8px;
-    }
-}
- 
-/* ——— Imagen/GIF del ejercicio ——— */
-.ej-gif-wrap {
-    width: 80px;
-    height: 80px;
-    overflow: hidden;
-    flex-shrink: 0;
-    background: rgba(0, 0, 0, 0.35);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0;
-}
- 
-.ej-gif-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    filter: brightness(0.92) contrast(1.05);
-}
- 
-.ej-gif-wrap.sin-img::after {
-    content: "🏋️";
-    font-size: 2rem;
-}
- 
-/* Ajuste del padding en ej-info cuando hay imagen */
-.ej-info {
-    padding: 10px 0;
-}
- 
-/* Ajuste responsive con imagen */
-@media (max-width: 480px) {
-    .ej-fila {
-        grid-template-columns: 64px 24px 1fr 28px;
-    }
-    .ej-gif-wrap {
-        width: 64px;
-        height: 64px;
-    }
+    .stats-row { gap: 6px; }
+    .stat-val { font-size: 1.2rem; }
+    .stat-lbl { font-size: 0.65rem; }
+    .ej-img { width: 56px; height: 56px; }
+    .rutina-header h1 { font-size: 1.1rem; }
+    .ej-item { align-items: center; }
+    .check-btn { margin-top: 0; }
 }

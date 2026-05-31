@@ -27,7 +27,6 @@ body {
 /* Contenedor principal centrado */
 main {
     width: min(92%, 760px);
-    max-width: 760px; /* ancho máximo para no estirar demasiado el contenido */
     margin: 20px auto 20px;
     padding: 40px 20px; /* espacio interno alrededor del contenido */
     text-align: center; /* texto centrado dentro del main */
@@ -45,7 +44,6 @@ main {
     margin: 24px auto; /* separa del resto y centra el bloque */
     width: 100%;
     max-width: 360px; /* ancho máximo del formulario */
-    box-sizing: border-box; /* incluye padding en el ancho total */
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35); /* sombra para elevarlo visualmente */
 }
 
@@ -66,7 +64,6 @@ main {
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.08);
     color: #ffffff; /* texto blanco dentro del input */
-    box-sizing: border-box; /* incluye padding y border en el ancho total */
 }
 
 /* Botón del formulario */
@@ -79,7 +76,6 @@ main {
     background: #1bbe0c83; /* color de botón llamativo */
     color: #ffffff;
     font-weight: 700;
-    box-sizing: border-box; /* incluye padding en el ancho total */
     cursor: pointer;
     display:block; /* para que el enlace se comporte como bloque y ocupe todo el ancho */
     text-decoration: none; /* elimina subrayado del enlace */
@@ -100,6 +96,16 @@ main {
     height: auto; /* mantiene la proporción original */
     border-radius: 50%; /* opcional: hace la imagen redonda si el logo lo permite */
     object-fit: cover;
+}
+
+/* Tarjeta reutilizable — base visual compartida entre páginas */
+.card {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    color: #ffffff;
 }
 
 /* Estilos de la inicio del sitio */
@@ -145,11 +151,6 @@ main {
   gap: 12px;
 }
 
-.rutinas h2 {
-    margin: 0;
-    font-size: 1.5rem;
-}
-
 .rutina-btn {
     padding: 12px 20px;
     border: none;
@@ -183,18 +184,6 @@ main {
     margin: 0;
     border-radius: 16px;
 }
-
-.inicio-texto {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.inicio-texto h1,
-.inicio-texto p {
-    margin: 0;
-}
-
 
 /* Pie de página */
 footer {
@@ -271,10 +260,6 @@ footer .social-icon {
     .inicio {
         flex-direction: column;
         text-align: center;
-        align-items: center;
-    }
-
-    .inicio-texto {
         align-items: center;
     }
 

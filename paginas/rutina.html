@@ -9,231 +9,238 @@
 </head>
 <body>
     <main>
- 
+
         <a class="back-link" href="inicio.html">&#8592; Volver a Rutinas</a>
- 
-        <div class="rutina-detalle-header">
-            <div class="rdh-texto">
-                <h1>Día 1 — Empuje MS / Dom. Rodilla</h1>
-                <p>Pecho · Hombros · Tríceps · Cuádriceps</p>
-            </div>
-            <div class="rdh-badges">
-                <span class="rbadge empuje">Empuje</span>
-                <span class="rbadge semana">Semana 1</span>
-                <span class="rbadge duracion">~60 min</span>
+
+        <div class="card rutina-header">
+            <h1>Día 1 — Empuje MS / Dom. Rodilla</h1>
+            <p>Pecho · Hombros · Tríceps · Cuádriceps</p>
+            <div class="badges">
+                <span class="badge empuje">Empuje</span>
+                <span class="badge semana">Semana 1</span>
+                <span class="badge duracion">~ 60 min</span>
             </div>
         </div>
- 
-        <div class="sesion-stats">
-            <div class="stat-box">
+
+        <div class="stats-row">
+            <div class="card stat-box">
                 <span class="stat-val">9</span>
                 <span class="stat-lbl">Ejercicios</span>
             </div>
-            <div class="stat-box">
+            <div class="card stat-box">
                 <span class="stat-val">32</span>
                 <span class="stat-lbl">Series totales</span>
             </div>
-            <div class="stat-box">
+            <div class="card stat-box">
                 <span class="stat-val" id="completados-cnt">0</span>
                 <span class="stat-lbl">Completados</span>
             </div>
         </div>
- 
-        <div class="prog-bloque">
-            <div class="prog-top">
-                <span class="prog-lbl">Progreso de la sesión</span>
-                <span class="prog-pct" id="prog-pct">0%</span>
-            </div>
-            <div class="prog-bg">
-                <div class="prog-fill" id="prog-fill" style="width: 0%"></div>
-            </div>
-        </div>
- 
-        <p class="section-title">Ejercicios</p>
- 
-        <div class="ejercicios-detalle" id="ej-list">
- 
-            <div class="ej-fila" data-idx="0">
-                <div class="ej-gif-wrap">
-                    <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Bench_Press_-_Medium_Grip/0.jpg"
+
+        <div class="card">
+            <p class="section-title">Ejercicios</p>
+            <div class="ejercicios-list" id="ej-list">
+
+                <div class="ej-item" data-idx="0">
+                    <img class="ej-img"
+                         src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Bench_Press_-_Medium_Grip/0.jpg"
                          alt="Press de banca plano"
-                         onerror="this.parentNode.classList.add('sin-img'); this.remove();">
-                </div>
-                <div class="ej-num" id="num-0">1</div>
-                <div class="ej-info">
-                    <span class="ej-nombre">Press de banca plano</span>
-                    <span class="ej-musculo">Pecho · Tríceps · Hombro anterior</span>
-                    <div class="ej-chips">
-                        <span class="chip series">4 series</span>
-                        <span class="chip reps">6–8 reps</span>
-                        <span class="chip descanso">2 min</span>
+                         loading="lazy"
+                         onerror="this.style.display='none'">
+                    <div class="ej-info">
+                        <div class="ej-header">
+                            <div class="ej-num" id="num-0">1</div>
+                            <span class="ej-nombre">Press de banca plano</span>
+                        </div>
+                        <span class="ej-musculo">Pecho · Tríceps · Hombro anterior</span>
+                        <div class="ej-chips">
+                            <span class="chip series">4 series</span>
+                            <span class="chip reps">6–8 reps</span>
+                            <span class="chip descanso">2 min</span>
+                        </div>
                     </div>
+                    <button class="check-btn" aria-label="Marcar completado">✓</button>
                 </div>
-                <button class="check-btn" onclick="toggleEj(0)" aria-label="Marcar completado">✓</button>
-            </div>
- 
-            <div class="ej-fila" data-idx="1">
-                <div class="ej-gif-wrap">
-                    <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Incline_Dumbbell_Bench_Press/0.jpg"
-                         alt="Press inclinado"
-                         onerror="this.parentNode.classList.add('sin-img'); this.remove();">
-                </div>
-                <div class="ej-num" id="num-1">2</div>
-                <div class="ej-info">
-                    <span class="ej-nombre">Press inclinado con mancuernas</span>
-                    <span class="ej-musculo">Pecho superior · Hombro anterior</span>
-                    <div class="ej-chips">
-                        <span class="chip series">3 series</span>
-                        <span class="chip reps">10–12 reps</span>
-                        <span class="chip descanso">90 s</span>
+
+                <div class="ej-item" data-idx="1">
+                    <img class="ej-img"
+                         src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Incline_Dumbbell_Press/0.jpg"
+                         alt="Press inclinado con mancuernas"
+                         loading="lazy"
+                         onerror="this.style.display='none'">
+                    <div class="ej-info">
+                        <div class="ej-header">
+                            <div class="ej-num" id="num-1">2</div>
+                            <span class="ej-nombre">Press inclinado con mancuernas</span>
+                        </div>
+                        <span class="ej-musculo">Pecho superior · Hombro anterior</span>
+                        <div class="ej-chips">
+                            <span class="chip series">3 series</span>
+                            <span class="chip reps">10–12 reps</span>
+                            <span class="chip descanso">90 s</span>
+                        </div>
                     </div>
+                    <button class="check-btn" aria-label="Marcar completado">✓</button>
                 </div>
-                <button class="check-btn" onclick="toggleEj(1)" aria-label="Marcar completado">✓</button>
-            </div>
- 
-            <div class="ej-fila" data-idx="2">
-                <div class="ej-gif-wrap">
-                    <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Cable_Cross-Over/0.jpg"
-                         alt="Aperturas en polea"
-                         onerror="this.parentNode.classList.add('sin-img'); this.remove();">
-                </div>
-                <div class="ej-num" id="num-2">3</div>
-                <div class="ej-info">
-                    <span class="ej-nombre">Aperturas en polea baja</span>
-                    <span class="ej-musculo">Pecho · Aislamiento</span>
-                    <div class="ej-chips">
-                        <span class="chip series">3 series</span>
-                        <span class="chip reps">12–15 reps</span>
-                        <span class="chip descanso">60 s</span>
+
+                <div class="ej-item" data-idx="2">
+                    <img class="ej-img"
+                         src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Cable_Crossover/0.jpg"
+                         alt="Aperturas en polea baja"
+                         loading="lazy"
+                         onerror="this.style.display='none'">
+                    <div class="ej-info">
+                        <div class="ej-header">
+                            <div class="ej-num" id="num-2">3</div>
+                            <span class="ej-nombre">Aperturas en polea baja</span>
+                        </div>
+                        <span class="ej-musculo">Pecho · Aislamiento</span>
+                        <div class="ej-chips">
+                            <span class="chip series">3 series</span>
+                            <span class="chip reps">12–15 reps</span>
+                            <span class="chip descanso">60 s</span>
+                        </div>
                     </div>
+                    <button class="check-btn" aria-label="Marcar completado">✓</button>
                 </div>
-                <button class="check-btn" onclick="toggleEj(2)" aria-label="Marcar completado">✓</button>
-            </div>
- 
-            <div class="ej-fila" data-idx="3">
-                <div class="ej-gif-wrap">
-                    <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Shoulder_Press/0.jpg"
-                         alt="Press militar"
-                         onerror="this.parentNode.classList.add('sin-img'); this.remove();">
-                </div>
-                <div class="ej-num" id="num-3">4</div>
-                <div class="ej-info">
-                    <span class="ej-nombre">Press militar con barra</span>
-                    <span class="ej-musculo">Hombros · Tríceps</span>
-                    <div class="ej-chips">
-                        <span class="chip series">4 series</span>
-                        <span class="chip reps">6–8 reps</span>
-                        <span class="chip descanso">2 min</span>
+
+                <div class="ej-item" data-idx="3">
+                    <img class="ej-img"
+                         src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Shoulder_Press/0.jpg"
+                         alt="Press militar con barra"
+                         loading="lazy"
+                         onerror="this.style.display='none'">
+                    <div class="ej-info">
+                        <div class="ej-header">
+                            <div class="ej-num" id="num-3">4</div>
+                            <span class="ej-nombre">Press militar con barra</span>
+                        </div>
+                        <span class="ej-musculo">Hombros · Tríceps</span>
+                        <div class="ej-chips">
+                            <span class="chip series">4 series</span>
+                            <span class="chip reps">6–8 reps</span>
+                            <span class="chip descanso">2 min</span>
+                        </div>
                     </div>
+                    <button class="check-btn" aria-label="Marcar completado">✓</button>
                 </div>
-                <button class="check-btn" onclick="toggleEj(3)" aria-label="Marcar completado">✓</button>
-            </div>
- 
-            <div class="ej-fila" data-idx="4">
-                <div class="ej-gif-wrap">
-                    <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Lateral_Raise/0.jpg"
+
+                <div class="ej-item" data-idx="4">
+                    <img class="ej-img"
+                         src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Raise/0.jpg"
                          alt="Elevaciones laterales"
-                         onerror="this.parentNode.classList.add('sin-img'); this.remove();">
-                </div>
-                <div class="ej-num" id="num-4">5</div>
-                <div class="ej-info">
-                    <span class="ej-nombre">Elevaciones laterales</span>
-                    <span class="ej-musculo">Deltoides lateral</span>
-                    <div class="ej-chips">
-                        <span class="chip series">3 series</span>
-                        <span class="chip reps">12–15 reps</span>
-                        <span class="chip descanso">60 s</span>
+                         loading="lazy"
+                         onerror="this.style.display='none'">
+                    <div class="ej-info">
+                        <div class="ej-header">
+                            <div class="ej-num" id="num-4">5</div>
+                            <span class="ej-nombre">Elevaciones laterales</span>
+                        </div>
+                        <span class="ej-musculo">Deltoides lateral</span>
+                        <div class="ej-chips">
+                            <span class="chip series">3 series</span>
+                            <span class="chip reps">12–15 reps</span>
+                            <span class="chip descanso">60 s</span>
+                        </div>
                     </div>
+                    <button class="check-btn" aria-label="Marcar completado">✓</button>
                 </div>
-                <button class="check-btn" onclick="toggleEj(4)" aria-label="Marcar completado">✓</button>
-            </div>
- 
-            <div class="ej-fila" data-idx="5">
-                <div class="ej-gif-wrap">
-                    <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Triceps_Dip/0.jpg"
+
+                <div class="ej-item" data-idx="5">
+                    <img class="ej-img"
+                         src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dips_-_Triceps_Version/0.jpg"
                          alt="Fondos en paralelas"
-                         onerror="this.parentNode.classList.add('sin-img'); this.remove();">
-                </div>
-                <div class="ej-num" id="num-5">6</div>
-                <div class="ej-info">
-                    <span class="ej-nombre">Fondos en paralelas</span>
-                    <span class="ej-musculo">Tríceps · Pecho inferior</span>
-                    <div class="ej-chips">
-                        <span class="chip series">3 series</span>
-                        <span class="chip reps">Al fallo</span>
-                        <span class="chip descanso">90 s</span>
+                         loading="lazy"
+                         onerror="this.style.display='none'">
+                    <div class="ej-info">
+                        <div class="ej-header">
+                            <div class="ej-num" id="num-5">6</div>
+                            <span class="ej-nombre">Fondos en paralelas</span>
+                        </div>
+                        <span class="ej-musculo">Tríceps · Pecho inferior</span>
+                        <div class="ej-chips">
+                            <span class="chip series">3 series</span>
+                            <span class="chip reps">Al fallo</span>
+                            <span class="chip descanso">90 s</span>
+                        </div>
                     </div>
+                    <button class="check-btn" aria-label="Marcar completado">✓</button>
                 </div>
-                <button class="check-btn" onclick="toggleEj(5)" aria-label="Marcar completado">✓</button>
-            </div>
- 
-            <div class="ej-fila" data-idx="6">
-                <div class="ej-gif-wrap">
-                    <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Full_Squat/0.jpg"
+
+                <div class="ej-item" data-idx="6">
+                    <img class="ej-img"
+                         src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Full_Squat/0.jpg"
                          alt="Sentadilla con barra"
-                         onerror="this.parentNode.classList.add('sin-img'); this.remove();">
-                </div>
-                <div class="ej-num" id="num-6">7</div>
-                <div class="ej-info">
-                    <span class="ej-nombre">Sentadilla con barra</span>
-                    <span class="ej-musculo">Cuádriceps · Glúteos · Core</span>
-                    <div class="ej-chips">
-                        <span class="chip series">4 series</span>
-                        <span class="chip reps">6–8 reps</span>
-                        <span class="chip descanso">2 min</span>
+                         loading="lazy"
+                         onerror="this.style.display='none'">
+                    <div class="ej-info">
+                        <div class="ej-header">
+                            <div class="ej-num" id="num-6">7</div>
+                            <span class="ej-nombre">Sentadilla con barra</span>
+                        </div>
+                        <span class="ej-musculo">Cuádriceps · Glúteos · Core</span>
+                        <div class="ej-chips">
+                            <span class="chip series">4 series</span>
+                            <span class="chip reps">6–8 reps</span>
+                            <span class="chip descanso">2 min</span>
+                        </div>
                     </div>
+                    <button class="check-btn" aria-label="Marcar completado">✓</button>
                 </div>
-                <button class="check-btn" onclick="toggleEj(6)" aria-label="Marcar completado">✓</button>
-            </div>
- 
-            <div class="ej-fila" data-idx="7">
-                <div class="ej-gif-wrap">
-                    <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leg_Press/0.jpg"
+
+                <div class="ej-item" data-idx="7">
+                    <img class="ej-img"
+                         src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leg_Press/0.jpg"
                          alt="Prensa de piernas"
-                         onerror="this.parentNode.classList.add('sin-img'); this.remove();">
-                </div>
-                <div class="ej-num" id="num-7">8</div>
-                <div class="ej-info">
-                    <span class="ej-nombre">Prensa de piernas</span>
-                    <span class="ej-musculo">Cuádriceps · Glúteos</span>
-                    <div class="ej-chips">
-                        <span class="chip series">3 series</span>
-                        <span class="chip reps">10–12 reps</span>
-                        <span class="chip descanso">90 s</span>
+                         loading="lazy"
+                         onerror="this.style.display='none'">
+                    <div class="ej-info">
+                        <div class="ej-header">
+                            <div class="ej-num" id="num-7">8</div>
+                            <span class="ej-nombre">Prensa de piernas</span>
+                        </div>
+                        <span class="ej-musculo">Cuádriceps · Glúteos</span>
+                        <div class="ej-chips">
+                            <span class="chip series">3 series</span>
+                            <span class="chip reps">10–12 reps</span>
+                            <span class="chip descanso">90 s</span>
+                        </div>
                     </div>
+                    <button class="check-btn" aria-label="Marcar completado">✓</button>
                 </div>
-                <button class="check-btn" onclick="toggleEj(7)" aria-label="Marcar completado">✓</button>
-            </div>
- 
-            <div class="ej-fila" data-idx="8">
-                <div class="ej-gif-wrap">
-                    <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leg_Extensions/0.jpg"
+
+                <div class="ej-item" data-idx="8">
+                    <img class="ej-img"
+                         src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leg_Extensions/0.jpg"
                          alt="Extensión de cuádriceps"
-                         onerror="this.parentNode.classList.add('sin-img'); this.remove();">
-                </div>
-                <div class="ej-num" id="num-8">9</div>
-                <div class="ej-info">
-                    <span class="ej-nombre">Extensión de cuádriceps</span>
-                    <span class="ej-musculo">Cuádriceps · Aislamiento</span>
-                    <div class="ej-chips">
-                        <span class="chip series">3 series</span>
-                        <span class="chip reps">12–15 reps</span>
-                        <span class="chip descanso">60 s</span>
+                         loading="lazy"
+                         onerror="this.style.display='none'">
+                    <div class="ej-info">
+                        <div class="ej-header">
+                            <div class="ej-num" id="num-8">9</div>
+                            <span class="ej-nombre">Extensión de cuádriceps</span>
+                        </div>
+                        <span class="ej-musculo">Cuádriceps · Aislamiento</span>
+                        <div class="ej-chips">
+                            <span class="chip series">3 series</span>
+                            <span class="chip reps">12–15 reps</span>
+                            <span class="chip descanso">60 s</span>
+                        </div>
                     </div>
+                    <button class="check-btn" aria-label="Marcar completado">✓</button>
                 </div>
-                <button class="check-btn" onclick="toggleEj(8)" aria-label="Marcar completado">✓</button>
+
             </div>
- 
         </div>
- 
-        <div class="notas-entrenador">
+
+        <div class="card notas-entrenador">
             <p><strong>Notas del entrenador:</strong> Empezá siempre con 5–10 min de entrada en calor. En los ejercicios principales (banca y sentadilla) hacé una serie de calentamiento con menos peso antes de las series de trabajo. Descansá los tiempos indicados para maximizar la recuperación.</p>
         </div>
- 
-        <a href="inicio.html" class="finalizar-btn" id="fin-btn">Finalizar sesión</a>
- 
+
+        <a href="inicio.html" class="rutina-btn" id="fin-btn">Finalizar sesión</a>
+
     </main>
- 
+
     <footer>
         <a href="https://www.instagram.com/enjoy.patagones?igsh=bjg5dnFpcHVhYWI0" target="_blank">
             <img class="social-icon" src="../img/instagramlogo.png" alt="Instagram">
@@ -243,45 +250,6 @@
         </a>
         <p>&copy; 2026 Enjoy. Todos los derechos reservados.</p>
     </footer>
- 
-    <script>
-        const totalEj = 9;
-        const completados = new Set();
- 
-        function toggleEj(i) {
-            const fila = document.querySelector('.ej-fila[data-idx="' + i + '"]');
-            const num = document.getElementById('num-' + i);
-            const btn = fila.querySelector('.check-btn');
- 
-            if (completados.has(i)) {
-                completados.delete(i);
-                fila.classList.remove('completado');
-                num.classList.remove('done');
-                num.textContent = i + 1;
-                btn.classList.remove('done');
-            } else {
-                completados.add(i);
-                fila.classList.add('completado');
-                num.classList.add('done');
-                num.textContent = '✓';
-                btn.classList.add('done');
-            }
- 
-            const pct = Math.round((completados.size / totalEj) * 100);
-            document.getElementById('prog-fill').style.width = pct + '%';
-            document.getElementById('prog-pct').textContent = pct + '%';
-            document.getElementById('completados-cnt').textContent = completados.size;
- 
-            const finBtn = document.getElementById('fin-btn');
-            if (completados.size === totalEj) {
-                finBtn.textContent = '¡Sesión completada!';
-                finBtn.style.background = '#6bff6bde';
-            } else {
-                finBtn.textContent = 'Finalizar sesión';
-                finBtn.style.background = '';
-            }
-        }
-    </script>
- 
+
 </body>
 </html>
