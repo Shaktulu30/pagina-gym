@@ -33,6 +33,7 @@ main {
     background: rgba(0, 0, 0, 0.55); /* tarjeta semitransparente sobre la imagen */
     border-radius: 24px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+    position: relative; /* ancla el profile-widget en esquina */
 }
 
 /* Estilos del cuadro del formulario */
@@ -206,6 +207,108 @@ footer .social-icon {
     vertical-align: middle;
 }
 
+/* ===== PROFILE WIDGET — inicio.html ===== */
+.profile-widget {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    z-index: 100;
+}
+
+.profile-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.09);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, border-color 0.2s;
+    backdrop-filter: blur(4px);
+    padding: 0;
+}
+
+.profile-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.38);
+}
+
+.profile-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 188px;
+    background: rgba(18, 18, 18, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 12px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.profile-dropdown.open {
+    display: block;
+}
+
+.profile-dropdown-header {
+    padding: 13px 15px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    text-align: left;
+}
+
+.profile-name {
+    margin: 0 0 2px;
+    font-weight: 700;
+    font-size: 0.88rem;
+}
+
+.profile-email {
+    margin: 0;
+    font-size: 0.74rem;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.profile-menu {
+    list-style: none;
+    margin: 0;
+    padding: 6px 0;
+}
+
+.profile-menu li a {
+    display: block;
+    padding: 9px 15px;
+    color: rgba(255, 255, 255, 0.82);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: background 0.15s, color 0.15s;
+    text-align: left;
+}
+
+.profile-menu li a:hover {
+    background: rgba(255, 255, 255, 0.07);
+    color: #fff;
+}
+
+.profile-menu .divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.09);
+    margin: 4px 0;
+}
+
+.profile-menu .logout a {
+    color: rgba(255, 100, 100, 0.85);
+}
+
+.profile-menu .logout a:hover {
+    background: rgba(255, 77, 77, 0.1);
+    color: #ff6b6b;
+}
+/* ===== FIN PROFILE WIDGET ===== */
+
 /* Responsive: tablets */
 @media (max-width: 768px) {
     main {
@@ -226,6 +329,12 @@ footer .social-icon {
 
     footer {
         padding: 16px 0 24px;
+    }
+
+    /* Profile widget — tablet */
+    .profile-btn {
+        width: 42px;
+        height: 42px;
     }
 }
 
@@ -275,5 +384,31 @@ footer .social-icon {
     footer .social-icon {
         width: 42px;
         height: 42px;
+    }
+
+    /* Profile widget — móvil */
+    .profile-widget {
+        top: 10px;
+        right: 12px;
+    }
+
+    .profile-dropdown {
+        min-width: 0;
+        width: 172px;
+    }
+
+    .profile-menu li a {
+        padding: 11px 14px;
+        font-size: 0.9rem;
+    }
+
+    .profile-dropdown-header {
+        padding: 12px 14px 9px;
+    }
+
+    /* empuja el card del logo para que arranque debajo del botón de perfil
+       (botón ocupa top:10 + 42px = ~52px; con este margin empieza en ~64px) */
+    .inicio {
+        margin-top: 38px;
     }
 }

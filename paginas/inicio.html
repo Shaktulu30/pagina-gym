@@ -9,6 +9,27 @@
 </head>
 <body>
     <main>
+        <!-- ===== PERFIL ===== -->
+        <div class="profile-widget">
+            <button class="profile-btn" id="profileBtn" aria-label="Ver perfil" aria-expanded="false">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v1h20v-1c0-3.33-6.67-5-10-5z"/>
+                </svg>
+            </button>
+            <div class="profile-dropdown" id="profileDropdown" role="menu">
+                <div class="profile-dropdown-header">
+                    <p class="profile-name">Pablo</p>
+                    <p class="profile-email">pablo@enjoy.com</p>
+                </div>
+                <ul class="profile-menu">
+                    <li><a href="perfilalumno.html" role="menuitem">Mi Perfil</a></li>
+                    <li><a href="#" role="menuitem">Configuración</a></li>
+                    <li class="divider" role="separator"></li>
+                    <li class="logout"><a href="../index.html" role="menuitem">Cerrar Sesión</a></li>
+                </ul>
+            </div>
+        </div>
+
         <div class="inicio">
             <img class="logo" src="../img/enjoylogo2.jpeg" alt="Gimnasio Enjoy">
         </div>
@@ -44,6 +65,35 @@
             </div>
         </div>
     </main>
+
+    <!-- ===== PERFIL JS ===== -->
+    <script>
+        (function () {
+            const btn = document.getElementById('profileBtn');
+            const dropdown = document.getElementById('profileDropdown');
+
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                const isOpen = dropdown.classList.toggle('open');
+                btn.setAttribute('aria-expanded', isOpen);
+            });
+
+            document.addEventListener('click', function (e) {
+                if (!btn.contains(e.target) && !dropdown.contains(e.target)) {
+                    dropdown.classList.remove('open');
+                    btn.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    dropdown.classList.remove('open');
+                    btn.setAttribute('aria-expanded', 'false');
+                    btn.focus();
+                }
+            });
+        })();
+    </script>
 
     <footer>
         <a href="https://www.instagram.com/enjoy.patagones?igsh=bjg5dnFpcHVhYWI0" target="_blank">
