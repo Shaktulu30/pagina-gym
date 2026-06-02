@@ -186,6 +186,53 @@ main {
     border-radius: 16px;
 }
 
+/* Checkbox admin */
+.admin-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 4px 0 20px;
+    cursor: pointer;
+}
+
+#admin {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s, border-color 0.2s;
+    position: relative;
+}
+
+#admin:checked {
+    background: rgba(27, 190, 12, 0.45);
+    border-color: rgba(27, 190, 12, 0.8);
+}
+
+#admin:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 6px;
+    height: 10px;
+    border: 2px solid #fff;
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg);
+}
+
+label[for="admin"] {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.88rem;
+    cursor: pointer;
+}
+
 /* Pie de página */
 footer {
     text-align: center;
