@@ -474,6 +474,23 @@ main.dashboard-content {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.badge-restriccion {
+    background: rgba(230, 126, 34, 0.15);
+    color: #e67e22;
+    border: 1px solid rgba(230, 126, 34, 0.35);
+}
+
+.badge-rehab {
+    background: rgba(155, 89, 182, 0.15);
+    color: #c39bd3;
+    border: 1px solid rgba(155, 89, 182, 0.35);
+}
+
+.restriccion-none {
+    color: rgba(255, 255, 255, 0.22);
+    font-size: 0.85rem;
+}
+
 .tabla-action {
     display: inline-block;
     background: rgba(255, 255, 255, 0.07);

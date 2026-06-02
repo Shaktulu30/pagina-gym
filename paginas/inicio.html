@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enjoy - Inicio</title>
-    <!-- Estilo principal de la página: fondo negro, formulario centrado y texto claro -->
     <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/app.js" defer></script>
 </head>
 <body>
     <main>
@@ -65,35 +65,6 @@
             </div>
         </div>
     </main>
-
-    <!-- ===== PERFIL JS ===== -->
-    <script>
-        (function () {
-            const btn = document.getElementById('profileBtn');
-            const dropdown = document.getElementById('profileDropdown');
-
-            btn.addEventListener('click', function (e) {
-                e.stopPropagation();
-                const isOpen = dropdown.classList.toggle('open');
-                btn.setAttribute('aria-expanded', isOpen);
-            });
-
-            document.addEventListener('click', function (e) {
-                if (!btn.contains(e.target) && !dropdown.contains(e.target)) {
-                    dropdown.classList.remove('open');
-                    btn.setAttribute('aria-expanded', 'false');
-                }
-            });
-
-            document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape') {
-                    dropdown.classList.remove('open');
-                    btn.setAttribute('aria-expanded', 'false');
-                    btn.focus();
-                }
-            });
-        })();
-    </script>
 
     <footer>
         <a href="https://www.instagram.com/enjoy.patagones?igsh=bjg5dnFpcHVhYWI0" target="_blank">

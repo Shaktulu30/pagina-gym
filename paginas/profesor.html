@@ -6,6 +6,7 @@
     <title>Enjoy — Panel Profesor</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/profesor.css">
+    <script src="../js/app.js" defer></script>
 </head>
 <body>
 
@@ -178,6 +179,7 @@
                             <tr>
                                 <th scope="col">Alumno</th>
                                 <th scope="col">Rutina</th>
+                                <th scope="col">Restricción / Dolor</th>
                                 <th scope="col">Última visita</th>
                                 <th scope="col">Pago</th>
                                 <th scope="col"></th>
@@ -192,6 +194,7 @@
                                     </div>
                                 </td>
                                 <td>Push / Pull / Metabólico</td>
+                                <td><span class="restriccion-none">—</span></td>
                                 <td>Hoy, 08:30</td>
                                 <td><span class="badge badge-activo">Al día</span></td>
                                 <td><a href="#" class="tabla-action">Ver perfil</a></td>
@@ -204,6 +207,7 @@
                                     </div>
                                 </td>
                                 <td>Empuje MS / Dom. Rodilla</td>
+                                <td><span class="badge badge-restriccion">Rodilla der.</span></td>
                                 <td>Ayer, 17:00</td>
                                 <td><span class="badge badge-pendiente">Pendiente</span></td>
                                 <td><a href="#" class="tabla-action">Ver perfil</a></td>
@@ -216,6 +220,7 @@
                                     </div>
                                 </td>
                                 <td>Sin asignar</td>
+                                <td><span class="badge badge-rehab">Rehab. lumbar</span></td>
                                 <td>hace 3 días</td>
                                 <td><span class="badge badge-activo">Al día</span></td>
                                 <td><a href="#" class="tabla-action">Ver perfil</a></td>
@@ -228,6 +233,7 @@
                                     </div>
                                 </td>
                                 <td>Tracción MS / Dom. Cadera</td>
+                                <td><span class="restriccion-none">—</span></td>
                                 <td>hace 1 semana</td>
                                 <td><span class="badge badge-inactivo">Inactivo</span></td>
                                 <td><a href="#" class="tabla-action">Ver perfil</a></td>
@@ -240,6 +246,7 @@
                                     </div>
                                 </td>
                                 <td>Push / Pull / Metabólico</td>
+                                <td><span class="badge badge-restriccion">Hombro izq.</span></td>
                                 <td>Hoy, 07:00</td>
                                 <td><span class="badge badge-activo">Al día</span></td>
                                 <td><a href="#" class="tabla-action">Ver perfil</a></td>
@@ -259,63 +266,6 @@
 
 </div>
 
-<script>
-    /* ── Sidebar toggle (mobile) ── */
-    (function () {
-        const toggle = document.getElementById('sidebarToggle');
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('sidebarOverlay');
-
-        function openSidebar() {
-            sidebar.classList.add('open');
-            overlay.classList.add('open');
-            toggle.setAttribute('aria-expanded', 'true');
-        }
-
-        function closeSidebar() {
-            sidebar.classList.remove('open');
-            overlay.classList.remove('open');
-            toggle.setAttribute('aria-expanded', 'false');
-        }
-
-        toggle.addEventListener('click', function () {
-            sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
-        });
-
-        overlay.addEventListener('click', closeSidebar);
-
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') closeSidebar();
-        });
-    })();
-
-    /* ── Profile dropdown ── */
-    (function () {
-        const btn = document.getElementById('profileBtn');
-        const dropdown = document.getElementById('profileDropdown');
-
-        btn.addEventListener('click', function (e) {
-            e.stopPropagation();
-            const isOpen = dropdown.classList.toggle('open');
-            btn.setAttribute('aria-expanded', isOpen);
-        });
-
-        document.addEventListener('click', function (e) {
-            if (!btn.contains(e.target) && !dropdown.contains(e.target)) {
-                dropdown.classList.remove('open');
-                btn.setAttribute('aria-expanded', 'false');
-            }
-        });
-
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') {
-                dropdown.classList.remove('open');
-                btn.setAttribute('aria-expanded', 'false');
-                btn.focus();
-            }
-        });
-    })();
-</script>
 
 </body>
 </html>
