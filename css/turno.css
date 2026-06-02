@@ -1,0 +1,623 @@
+/* turno.css — Página de Turnos
+   Depende de style.css y profesor.css (sidebar, topbar, badge-restriccion, badge-rehab).
+*/
+
+/* ── Header del turno actual ──────────────────────────────── */
+.turno-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    padding: 22px 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.turno-header-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Badge pulsante "En curso" */
+.turno-live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #6bff6b;
+}
+
+.live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #1bbe0c;
+    box-shadow: 0 0 0 0 rgba(27, 190, 12, 0.5);
+    animation: pulse-dot 1.8s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+@keyframes pulse-dot {
+    0%   { box-shadow: 0 0 0 0 rgba(27, 190, 12, 0.55); }
+    60%  { box-shadow: 0 0 0 7px rgba(27, 190, 12, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(27, 190, 12, 0); }
+}
+
+.turno-hora {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+}
+
+.turno-fecha {
+    margin: 0;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.42);
+}
+
+/* Contador de asistentes */
+.turno-ocupacion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 14px 18px;
+    text-align: center;
+    flex-shrink: 0;
+    min-width: 90px;
+}
+
+.ocup-num {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #6bff6b;
+    line-height: 1;
+}
+
+.ocup-denom {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.3);
+    line-height: 1;
+}
+
+.ocup-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.35);
+    margin-top: 4px;
+}
+
+/* ── Grid de alumnos ──────────────────────────────────────── */
+.alumnos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+    gap: 14px;
+}
+
+/* ── Tarjeta de alumno ────────────────────────────────────── */
+.alumno-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 22px 16px 18px;
+    background: rgba(255, 255, 255, 0.11);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 16px;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
+    text-align: center;
+    transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
+}
+
+.alumno-card:hover {
+    background: rgba(255, 255, 255, 0.16);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.42);
+}
+
+.alumno-card--vacio {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px dashed rgba(255, 255, 255, 0.18);
+    box-shadow: none;
+}
+
+.alumno-card--vacio:hover {
+    background: rgba(255, 255, 255, 0.07);
+    transform: none;
+    box-shadow: none;
+}
+
+/* Avatar circular */
+.card-avatar {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background: rgba(77, 121, 255, 0.25);
+    border: 2px solid rgba(77, 121, 255, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #8eaaff;
+    flex-shrink: 0;
+}
+
+/* Color semántico: naranja para restricción, violeta para rehabilitación */
+.card-avatar--restriccion {
+    background: rgba(230, 126, 34, 0.22);
+    border-color: rgba(230, 126, 34, 0.55);
+    color: #f0a050;
+}
+
+.card-avatar--rehab {
+    background: rgba(155, 89, 182, 0.22);
+    border-color: rgba(155, 89, 182, 0.55);
+    color: #c39bd3;
+}
+
+.card-avatar--vacio {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.28);
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+}
+
+.card-nombre {
+    margin: 0;
+    font-size: 0.97rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+}
+
+.card-nombre--vacio {
+    color: rgba(255, 255, 255, 0.32);
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+.card-rutina {
+    margin: 0;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.62);
+    line-height: 1.3;
+}
+
+/* Badges levemente más grandes dentro de la tarjeta */
+.alumno-card .badge {
+    font-size: 0.76rem;
+    padding: 4px 12px;
+    margin-top: 2px;
+}
+
+/* ── Próximos turnos ──────────────────────────────────────── */
+.turnos-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.turno-pill {
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.07);
+    color: rgba(255, 255, 255, 0.75);
+    transition: background 0.18s, color 0.18s, border-color 0.18s, transform 0.15s;
+    white-space: nowrap;
+}
+
+.turno-pill:hover {
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.turno-pill--actual {
+    background: rgba(27, 190, 12, 0.18);
+    border-color: rgba(27, 190, 12, 0.5);
+    color: #6bff6b;
+}
+
+.turno-pill--actual:hover {
+    background: rgba(27, 190, 12, 0.26);
+}
+
+.turno-pill--pasado {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.28);
+    cursor: default;
+}
+
+.turno-pill--pasado:hover {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.28);
+    transform: none;
+}
+
+/* ── Responsive: tablet ───────────────────────────────────── */
+@media (max-width: 900px) {
+    .alumnos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+    }
+}
+
+/* ── Responsive: móvil ────────────────────────────────────── */
+@media (max-width: 600px) {
+    .turno-header {
+        padding: 16px 18px;
+    }
+
+    .turno-hora {
+        font-size: 1.35rem;
+    }
+
+    .turno-ocupacion {
+        padding: 10px 14px;
+        min-width: 76px;
+    }
+
+    .ocup-num {
+        font-size: 1.6rem;
+    }
+
+    .alumnos-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .alumno-card {
+        padding: 18px 12px 14px;
+        gap: 10px;
+    }
+
+    .card-avatar {
+        width: 50px;
+        height: 50px;
+        font-size: 0.85rem;
+    }
+
+    .card-nombre {
+        font-size: 0.88rem;
+    }
+
+    .card-rutina {
+        font-size: 0.74rem;
+    }
+
+    .turnos-nav {
+        gap: 6px;
+    }
+
+    .turno-pill {
+        padding: 7px 13px;
+        font-size: 0.78rem;
+    }
+}
+
+/* ── Modal de rutina ──────────────────────────────────────── */
+body.modal-open { overflow: hidden; }
+
+.turno-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s ease;
+}
+
+.turno-modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.turno-modal {
+    background: rgba(12, 12, 12, 0.97);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 20px;
+    width: min(460px, 100%);
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(16px);
+    position: relative;
+    transform: scale(0.96) translateY(10px);
+    transition: transform 0.22s ease;
+}
+
+.turno-modal-overlay.open .turno-modal {
+    transform: scale(1) translateY(0);
+}
+
+/* Drag handle solo visible en móvil */
+.modal-drag-handle {
+    display: none;
+    width: 38px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    margin: 12px auto 0;
+}
+
+.modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: rgba(255, 255, 255, 0.65);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.18s, color 0.18s;
+    flex-shrink: 0;
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 52px 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.modal-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(77, 121, 255, 0.25);
+    border: 2px solid rgba(77, 121, 255, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #8eaaff;
+    flex-shrink: 0;
+}
+
+.modal-avatar--restriccion {
+    background: rgba(230, 126, 34, 0.22);
+    border-color: rgba(230, 126, 34, 0.55);
+    color: #f0a050;
+}
+
+.modal-avatar--rehab {
+    background: rgba(155, 89, 182, 0.22);
+    border-color: rgba(155, 89, 182, 0.55);
+    color: #c39bd3;
+}
+
+.modal-header-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.modal-nombre {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+}
+
+.modal-rutina-nombre {
+    margin: 0;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.modal-badge { margin-top: 4px; }
+
+.modal-body {
+    padding: 14px 18px 22px;
+}
+
+.modal-sin-rutina {
+    margin: 8px 0 0;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.38);
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Lista de ejercicios dentro del modal */
+.modal-ej-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.modal-ej-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    transition: background 0.15s;
+}
+
+.modal-ej-item:hover {
+    background: rgba(255, 255, 255, 0.09);
+}
+
+.modal-ej-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(77, 121, 255, 0.18);
+    border: 1px solid rgba(77, 121, 255, 0.36);
+    color: #8eaaff;
+    font-size: 0.66rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.modal-ej-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.modal-ej-nombre {
+    margin: 0;
+    font-size: 0.87rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.92);
+    line-height: 1.2;
+}
+
+.modal-ej-musculo {
+    margin: 2px 0 0;
+    font-size: 0.71rem;
+    color: rgba(255, 255, 255, 0.42);
+}
+
+.modal-ej-series {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.58);
+    white-space: nowrap;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    padding: 3px 9px;
+}
+
+/* Truncado mobile: ítems extra ocultos hasta que se expanden */
+.modal-ej-item--hidden { display: none; }
+
+/* Botón "mostrar más" — solo visible en mobile */
+.modal-show-more {
+    display: none;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 8px;
+    padding: 9px 0;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+}
+
+.modal-show-more:hover {
+    background: rgba(255, 255, 255, 0.11);
+    color: #fff;
+}
+
+/* Botón "Ver rutina completa" — siempre visible */
+.modal-ver-rutina {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 14px;
+    padding: 11px 0;
+    background: rgba(27, 190, 12, 0.13);
+    border: 1px solid rgba(27, 190, 12, 0.35);
+    border-radius: 10px;
+    color: #6bff6b;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.18s, border-color 0.18s;
+}
+
+.modal-ver-rutina:hover {
+    background: rgba(27, 190, 12, 0.22);
+    border-color: rgba(27, 190, 12, 0.55);
+}
+
+@media (min-width: 601px) {
+    /* En desktop todos los ejercicios visibles */
+    .modal-ej-item--hidden { display: flex; }
+}
+
+@media (max-width: 600px) {
+    .modal-show-more { display: flex; }
+}
+
+/* Cursor en cards tapeables */
+.alumno-card[data-alumno] { cursor: pointer; }
+
+/* Mobile: bottom sheet */
+@media (max-width: 600px) {
+    .turno-modal-overlay {
+        align-items: flex-end;
+        padding: 0;
+    }
+
+    .turno-modal {
+        width: 100%;
+        max-height: 88vh;
+        border-radius: 20px 20px 0 0;
+        transform: translateY(30px);
+    }
+
+    .turno-modal-overlay.open .turno-modal {
+        transform: translateY(0);
+    }
+
+    .modal-drag-handle { display: block; }
+
+    .modal-header { padding-top: 16px; }
+}

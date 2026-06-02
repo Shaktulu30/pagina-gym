@@ -6,10 +6,9 @@
 html, body {
     margin: 0;
     padding: 0;
-    min-height: 100%; /* asegura que el body ocupe al menos toda la altura de la ventana */
 }
 
-/* Estilos generales de la página - aca esta el codigo de la foto*/
+/* Fondo general — imagen del gym con overlay oscuro */
 body {
     display: flex;
     flex-direction: column;
@@ -27,7 +26,7 @@ body {
 /* Contenedor principal centrado */
 main {
     width: min(92%, 760px);
-    margin: 20px auto 20px;
+    margin: 20px auto;
     padding: 40px 20px; /* espacio interno alrededor del contenido */
     text-align: center; /* texto centrado dentro del main */
     background: rgba(0, 0, 0, 0.55); /* tarjeta semitransparente sobre la imagen */
@@ -78,7 +77,7 @@ main {
     color: #ffffff;
     font-weight: 700;
     cursor: pointer;
-    display:block; /* para que el enlace se comporte como bloque y ocupe todo el ancho */
+    display: block; /* para que el enlace se comporte como bloque y ocupe todo el ancho */
     text-decoration: none; /* elimina subrayado del enlace */
     text-align: center; /* centra el texto dentro del botón */
 }
@@ -118,7 +117,6 @@ main {
     margin: 24px auto; /* separa del resto y centra el bloque */
     width: 100%;
     max-width: 520px; /* ancho máximo del bloque */
-    box-sizing: border-box; /* incluye padding en el ancho total */
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35); /* sombra para elevarlo visualmente */
     color: #ffffff; /* texto blanco dentro del bloque */
     text-align: center;
