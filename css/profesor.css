@@ -14,7 +14,7 @@ main.dashboard-content {
     max-width: none;
     margin: 0;
     padding: 28px;
-    background: none;
+    background: rgba(0, 0, 0, 0.45);
     border-radius: 0;
     box-shadow: none;
     text-align: left;

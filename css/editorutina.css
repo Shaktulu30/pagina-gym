@@ -1,0 +1,814 @@
+/* editorutina.css — Editor de Rutinas (plantillas)
+   Depende únicamente de style.css.
+   Layout sin sidebar, enfocado en edición de ejercicios por día.
+*/
+
+/* ── Reset del body para este layout ────────────────────── */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ── Topbar ──────────────────────────────────────────────── */
+.ed-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 20px;
+    height: 56px;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    flex-shrink: 0;
+}
+
+/* Botón volver */
+.ed-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.52);
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    transition: background 0.18s, color 0.18s;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.ed-back:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Info del template */
+.ed-header-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.ed-nombre {
+    margin: 0;
+    font-size: 0.97rem;
+    font-weight: 800;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ed-dias-badge {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 20px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.07);
+    color: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Derecha del topbar */
+.ed-topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.ed-saved-hint {
+    font-size: 0.74rem;
+    color: #6bff6b;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.ed-saved-hint.show {
+    opacity: 1;
+}
+
+/* Botón de configuración (gear) */
+.ed-icon-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.18s, color 0.18s;
+    flex-shrink: 0;
+    padding: 0;
+}
+
+.ed-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+}
+
+/* ── Franja de pestañas de días ──────────────────────────── */
+.ed-tabs-wrap {
+    position: sticky;
+    top: 56px;
+    z-index: 190;
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    flex-shrink: 0;
+}
+
+.ed-tab-list {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.ed-tab-list::-webkit-scrollbar { display: none; }
+
+.ed-tab {
+    padding: 12px 18px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.42);
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: color 0.18s, border-color 0.18s;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.ed-tab:hover {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.ed-tab--active {
+    color: #fff;
+    border-bottom-color: #1bbe0c;
+}
+
+/* ── Área de contenido principal ─────────────────────────── */
+.ed-main {
+    flex: 1;
+    padding: 24px 20px 48px;
+}
+
+.ed-content {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+/* ── Tarjeta de ejercicios ───────────────────────────────── */
+.ed-card {
+    background: rgba(0, 0, 0, 0.42);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+.ed-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.ed-card-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: rgba(255, 255, 255, 0.42);
+}
+
+.ed-ej-count {
+    font-size: 0.74rem;
+    color: rgba(255, 255, 255, 0.28);
+}
+
+/* ── Lista de ejercicios ─────────────────────────────────── */
+.ed-ej-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.ed-ej-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    transition: background 0.15s;
+}
+
+.ed-ej-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.ed-ej-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(77, 121, 255, 0.18);
+    border: 1px solid rgba(77, 121, 255, 0.36);
+    color: #8eaaff;
+    font-size: 0.66rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ed-ej-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ed-ej-nombre {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.92);
+    line-height: 1.2;
+}
+
+.ed-ej-musculo {
+    margin: 0;
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.ed-ej-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 2px;
+}
+
+.ed-chip {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 6px;
+    white-space: nowrap;
+    border: 1px solid transparent;
+}
+
+.ed-chip--series  { background: rgba(77, 121, 255, 0.14);  color: #8eaaff;  border-color: rgba(77,121,255,0.25); }
+.ed-chip--reps    { background: rgba(255, 109, 255, 0.11); color: #e89fe8;  border-color: rgba(255,109,255,0.2); }
+.ed-chip--descanso { background: rgba(255, 160, 50, 0.12); color: #ffb85c;  border-color: rgba(255,160,50,0.23); }
+
+/* Botón editar ejercicio */
+.ed-ej-edit-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.48);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.18s, color 0.18s;
+    flex-shrink: 0;
+    padding: 0;
+}
+
+.ed-ej-edit-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+}
+
+/* ── Derecha del header de tarjeta ──────────────────────── */
+.ed-card-header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ed-dup-day-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 11px;
+    border-radius: 7px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.5);
+    transition: background 0.18s, color 0.18s, border-color 0.18s;
+    white-space: nowrap;
+}
+
+.ed-dup-day-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.82);
+    border-color: rgba(255, 255, 255, 0.22);
+}
+
+.ed-del-day-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 11px;
+    border-radius: 7px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid rgba(255, 77, 77, 0.22);
+    background: transparent;
+    color: rgba(255, 100, 100, 0.6);
+    transition: background 0.18s, color 0.18s, border-color 0.18s;
+    white-space: nowrap;
+}
+
+.ed-del-day-btn:hover:not(:disabled) {
+    background: rgba(255, 77, 77, 0.1);
+    color: #ff6b6b;
+    border-color: rgba(255, 77, 77, 0.4);
+}
+
+.ed-del-day-btn:disabled {
+    opacity: 0.25;
+    cursor: default;
+}
+
+/* ── Botones de reorden ──────────────────────────────────── */
+.ed-order-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex-shrink: 0;
+}
+
+.ed-order-btn {
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(255, 255, 255, 0.38);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.ed-order-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.22);
+}
+
+.ed-order-btn:disabled {
+    opacity: 0.2;
+    cursor: default;
+}
+
+/* ── Estado vacío ────────────────────────────────────────── */
+.ed-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 40px 20px;
+    color: rgba(255, 255, 255, 0.22);
+    text-align: center;
+}
+
+.ed-empty p {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.55;
+}
+
+/* ── Botón agregar ejercicio ─────────────────────────────── */
+.ed-add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px 20px;
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    background: rgba(27, 190, 12, 0.06);
+    color: rgba(107, 255, 107, 0.72);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+}
+
+.ed-add-btn:hover {
+    background: rgba(27, 190, 12, 0.13);
+    color: #6bff6b;
+}
+
+/* ── Sistema de modales ──────────────────────────────────── */
+.ed-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.68);
+    backdrop-filter: blur(4px);
+    z-index: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s ease;
+}
+
+.ed-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.ed-panel {
+    background: rgba(14, 14, 14, 0.97);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 20px;
+    width: min(460px, 100%);
+    max-height: 88vh;
+    overflow-y: auto;
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.75);
+    position: relative;
+    transform: scale(0.95) translateY(12px);
+    transition: transform 0.22s ease;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.1) transparent;
+}
+
+.ed-overlay.open .ed-panel {
+    transform: scale(1) translateY(0);
+}
+
+.ed-panel--wide   { width: min(560px, 100%); }
+.ed-panel--narrow { width: min(400px, 100%); }
+
+/* Botón cerrar */
+.ed-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    color: rgba(255, 255, 255, 0.58);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.18s, color 0.18s;
+    z-index: 1;
+    padding: 0;
+}
+
+.ed-close:hover {
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+}
+
+.ed-panel-title {
+    margin: 0 0 4px;
+    font-size: 0.97rem;
+    font-weight: 800;
+    color: #fff;
+    padding: 20px 48px 0 20px;
+}
+
+.ed-panel-subtitle {
+    margin: 0 0 2px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.82);
+    padding: 6px 20px 0;
+}
+
+.ed-panel-musculo {
+    margin: 0;
+    font-size: 0.73rem;
+    color: rgba(255, 255, 255, 0.38);
+    padding: 2px 20px 0;
+}
+
+/* ── Formulario genérico ─────────────────────────────────── */
+.ed-form {
+    padding: 14px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.ed-form--ej {
+    padding-top: 16px;
+}
+
+.ed-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.ed-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.ed-form-group label {
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.42);
+}
+
+.ed-form-group input,
+.ed-form-group textarea {
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 0.87rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.ed-form-group input:focus,
+.ed-form-group textarea:focus {
+    border-color: rgba(27, 190, 12, 0.5);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.ed-form-group input.invalid {
+    border-color: rgba(255, 77, 77, 0.55);
+}
+
+.ed-form-group textarea { resize: vertical; min-height: 70px; }
+
+.ed-field-error {
+    font-size: 0.73rem;
+    color: #ff6b6b;
+    display: none;
+}
+
+.ed-field-error.visible { display: block; }
+
+.ed-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding-top: 4px;
+}
+
+.ed-form-actions--split {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ed-form-actions-right {
+    display: flex;
+    gap: 8px;
+}
+
+/* ── Botones generales ───────────────────────────────────── */
+.ed-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    border-radius: 9px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: background 0.18s, opacity 0.18s;
+    white-space: nowrap;
+}
+
+.ed-btn-primary {
+    background: rgba(27, 190, 12, 0.22);
+    color: #6bff6b;
+    border: 1px solid rgba(27, 190, 12, 0.4);
+}
+
+.ed-btn-primary:hover {
+    background: rgba(27, 190, 12, 0.34);
+}
+
+.ed-btn-secondary {
+    background: rgba(255, 255, 255, 0.07);
+    color: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.ed-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.13);
+    color: #fff;
+}
+
+.ed-btn-danger-ghost {
+    background: transparent;
+    color: rgba(255, 100, 100, 0.7);
+    border: 1px solid rgba(255, 77, 77, 0.22);
+}
+
+.ed-btn-danger-ghost:hover {
+    background: rgba(255, 77, 77, 0.1);
+    color: #ff6b6b;
+    border-color: rgba(255, 77, 77, 0.4);
+}
+
+/* ── Modal Buscar ejercicio ──────────────────────────────── */
+.ed-search-wrap {
+    position: relative;
+    padding: 10px 20px 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.ed-search-wrap svg {
+    position: absolute;
+    left: 32px;
+    top: 50%;
+    transform: translateY(-56%);
+    width: 15px;
+    height: 15px;
+    color: rgba(255, 255, 255, 0.32);
+    pointer-events: none;
+}
+
+.ed-search-input {
+    width: 100%;
+    padding: 10px 14px 10px 36px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    box-sizing: border-box;
+}
+
+.ed-search-input::placeholder { color: rgba(255, 255, 255, 0.28); }
+
+.ed-search-input:focus {
+    border-color: rgba(27, 190, 12, 0.45);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Lista de ejercicios en el modal de búsqueda */
+.ej-db-list {
+    padding: 8px 0 8px;
+    max-height: 420px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.1) transparent;
+}
+
+.ej-db-grupo {
+    padding: 8px 20px 4px;
+    font-size: 0.66rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.28);
+}
+
+.ej-db-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border-left: 2px solid transparent;
+}
+
+.ej-db-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-left-color: rgba(27, 190, 12, 0.5);
+}
+
+.ej-db-nombre {
+    font-size: 0.87rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.88);
+    line-height: 1.2;
+}
+
+.ej-db-musculo {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.38);
+}
+
+.ej-db-empty {
+    padding: 40px 20px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.28);
+}
+
+/* ── Toast ───────────────────────────────────────────────── */
+.ed-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 900;
+    background: rgba(20, 20, 20, 0.97);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    padding: 11px 16px;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 10px 36px rgba(0, 0, 0, 0.6);
+    transform: translateY(8px);
+    opacity: 0;
+    transition: opacity 0.24s, transform 0.24s;
+    pointer-events: none;
+}
+
+.ed-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.ed-toast.toast-ok   { border-left: 3px solid #6bff6b; }
+.ed-toast.toast-warn { border-left: 3px solid #ffb85c; }
+
+/* ── Responsive: móvil ───────────────────────────────────── */
+@media (max-width: 600px) {
+    .ed-nombre { font-size: 0.88rem; }
+    .ed-topbar { padding: 0 14px; }
+
+    .ed-overlay {
+        align-items: flex-end;
+        padding: 0;
+    }
+
+    .ed-panel,
+    .ed-panel--wide,
+    .ed-panel--narrow {
+        width: 100%;
+        border-radius: 20px 20px 0 0;
+        max-height: 90vh;
+    }
+
+    .ed-form-row { grid-template-columns: 1fr; }
+
+    .ed-main { padding: 16px 12px 40px; }
+
+    .ed-card { border-radius: 14px; }
+
+    .ed-ej-item { padding: 12px 16px; }
+
+    .ed-toast {
+        bottom: 16px;
+        right: 14px;
+        left: 14px;
+    }
+}
