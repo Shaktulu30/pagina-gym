@@ -779,6 +779,7 @@ body {
 
 .ed-toast.toast-ok   { border-left: 3px solid #6bff6b; }
 .ed-toast.toast-warn { border-left: 3px solid #ffb85c; }
+.ed-toast.toast-info { border-left: 3px solid #6b8fff; }
 
 /* ── Responsive: móvil ───────────────────────────────────── */
 @media (max-width: 600px) {
@@ -803,6 +804,24 @@ body {
     .ed-main { padding: 16px 12px 40px; }
 
     .ed-card { border-radius: 14px; }
+
+    .ed-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 14px 16px 12px;
+    }
+
+    .ed-card-header-right {
+        width: 100%;
+        gap: 8px;
+    }
+
+    .ed-dup-day-btn,
+    .ed-del-day-btn {
+        padding: 5px 9px;
+        font-size: 0.72rem;
+    }
 
     .ed-ej-item { padding: 12px 16px; }
 

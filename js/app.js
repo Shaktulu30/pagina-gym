@@ -451,6 +451,7 @@ function initPlanificacion() {
     var editId        = null;
     var diasEditVal   = 3;
     var asignarId     = null;
+    var deleteId      = null;
 
     // ── Helpers ─────────────────────────────────────────────
     function uid() { return 'pl-' + Date.now() + '-' + Math.floor(Math.random() * 1000); }
@@ -705,10 +706,10 @@ function initPlanificacion() {
         if (editId) {
             var idx = plantillas.findIndex(function(x) { return x.id === editId; });
             if (idx !== -1) {
-                var dias_actuales = plantillas[idx].dias_detalle;
+                var diasActuales = plantillas[idx].dias_detalle;
                 var nuevos = buildDiaDetalle(datos.dias);
                 for (var i = 0; i < nuevos.length; i++) {
-                    if (dias_actuales[i]) nuevos[i] = dias_actuales[i];
+                    if (diasActuales[i]) nuevos[i] = diasActuales[i];
                 }
                 plantillas[idx] = Object.assign({}, plantillas[idx], datos, { dias_detalle: nuevos });
             }
@@ -821,15 +822,14 @@ function initPlanificacion() {
     function openDelete(id) {
         var p = plantillas.find(function(x) { return x.id === id; });
         if (!p) return;
-        asignarId = null;
-        editId    = id;
+        deleteId = id;
         document.getElementById('deleteSubtitle').textContent = '¿Eliminar "' + p.nombre + '"? Esta acción no se puede deshacer.';
         openOverlay('deleteOverlay');
         document.getElementById('deleteCancel').focus();
     }
 
     document.getElementById('deleteConfirm').addEventListener('click', function() {
-        plantillas = plantillas.filter(function(x) { return x.id !== editId; });
+        plantillas = plantillas.filter(function(x) { return x.id !== deleteId; });
         closeOverlay('deleteOverlay');
         render();
         showToast('Plantilla eliminada.', 'warn');
@@ -981,7 +981,6 @@ function initEditorRutina() {
         { id: 'e52', nombre: 'Sentadilla con salto',           musculo: 'Piernas · Explosividad',       grupo: 'Funcional' },
         // Rehabilitación
         { id: 'e53', nombre: 'Puente de glúteos',              musculo: 'Glúteos · Isquiotibiales',     grupo: 'Rehabilitación' },
-        { id: 'e54', nombre: 'Bird dog',                       musculo: 'Core · Glúteos',               grupo: 'Rehabilitación' },
         { id: 'e55', nombre: 'McGill curl-up',                 musculo: 'Core anterior',                grupo: 'Rehabilitación' },
         { id: 'e56', nombre: 'Cat-Cow',                        musculo: 'Movilidad lumbar',             grupo: 'Rehabilitación' },
         { id: 'e57', nombre: 'Hip thrust con banda',           musculo: 'Glúteos · Core',               grupo: 'Rehabilitación' }
@@ -1215,8 +1214,8 @@ function initEditorRutina() {
     function renderEjDb(q) {
         var lista    = document.getElementById('ejDbList');
         var qLow     = q.toLowerCase().trim();
-        var filtered = !qLow ? EJ_DB : EJ_DB.filter(function(e) {
-            return e.nombre.toLowerCase().includes(qLow) || e.musculo.toLowerCase().includes(qLow);
+        var filtered = !qLow ? EJ_DB : EJ_DB.filter(function(ej) {
+            return ej.nombre.toLowerCase().includes(qLow) || ej.musculo.toLowerCase().includes(qLow);
         });
 
         if (!filtered.length) {
@@ -1224,13 +1223,15 @@ function initEditorRutina() {
             return;
         }
 
+        function ejDbItem(ej) {
+            return '<div class="ej-db-item" role="listitem" data-ej-id="' + ej.id + '">' +
+                '<span class="ej-db-nombre">' + ej.nombre + '</span>' +
+                '<span class="ej-db-musculo">' + ej.musculo + '</span>' +
+            '</div>';
+        }
+
         if (qLow) {
-            lista.innerHTML = filtered.map(function(ej) {
-                return '<div class="ej-db-item" role="listitem" data-ej-id="' + ej.id + '">' +
-                    '<span class="ej-db-nombre">' + ej.nombre + '</span>' +
-                    '<span class="ej-db-musculo">' + ej.musculo + '</span>' +
-                '</div>';
-            }).join('');
+            lista.innerHTML = filtered.map(ejDbItem).join('');
         } else {
             var grupos = {};
             filtered.forEach(function(ej) {
@@ -1240,12 +1241,7 @@ function initEditorRutina() {
             var html = '';
             Object.keys(grupos).forEach(function(g) {
                 html += '<div class="ej-db-grupo">' + g + '</div>';
-                html += grupos[g].map(function(ej) {
-                    return '<div class="ej-db-item" role="listitem" data-ej-id="' + ej.id + '">' +
-                        '<span class="ej-db-nombre">' + ej.nombre + '</span>' +
-                        '<span class="ej-db-musculo">' + ej.musculo + '</span>' +
-                    '</div>';
-                }).join('');
+                html += grupos[g].map(ejDbItem).join('');
             });
             lista.innerHTML = html;
         }
@@ -1253,7 +1249,7 @@ function initEditorRutina() {
         lista.querySelectorAll('.ej-db-item').forEach(function(item) {
             item.addEventListener('click', function() {
                 var ejId = item.dataset.ejId;
-                var ejRef = EJ_DB.find(function(e) { return e.id === ejId; });
+                var ejRef = EJ_DB.find(function(ej) { return ej.id === ejId; });
                 if (!ejRef) return;
                 plantilla.dias_detalle[diaActivo].ejercicios.push({
                     nombre:   ejRef.nombre,
