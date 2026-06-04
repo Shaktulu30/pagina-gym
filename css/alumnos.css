@@ -1,0 +1,490 @@
+/* alumnos.css — Lista y perfil de alumnos
+   Complementa style.css y profesor.css.
+*/
+
+/* ── Cabecera de página ──────────────────────────────────── */
+.al-page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.al-page-title {
+    margin: 0 0 4px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.al-page-sub {
+    margin: 0;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.36);
+}
+
+.al-btn-nuevo {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 18px;
+    background: rgba(27, 190, 12, 0.15);
+    border: 1px solid rgba(27, 190, 12, 0.32);
+    border-radius: 10px;
+    color: #6bff6b;
+    font-size: 0.87rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.al-btn-nuevo:hover {
+    background: rgba(27, 190, 12, 0.25);
+    border-color: rgba(27, 190, 12, 0.5);
+}
+
+.al-btn-nuevo svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* ── Toolbar ─────────────────────────────────────────────── */
+.al-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.al-search-wrap {
+    max-width: 380px;
+}
+
+.al-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.al-pill {
+    padding: 6px 14px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.79rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s, border-color 0.18s;
+}
+
+.al-pill:hover {
+    background: rgba(255, 255, 255, 0.11);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.al-pill--active {
+    background: rgba(107, 143, 255, 0.18);
+    border-color: rgba(107, 143, 255, 0.42);
+    color: #6b8fff;
+}
+
+/* ── Card contenedora de la tabla ───────────────────────── */
+.al-card {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+/* ── Tabla ───────────────────────────────────────────────── */
+.al-table {
+    min-width: 500px;
+}
+
+.al-table thead th:last-child {
+    width: 110px;
+    text-align: right;
+    padding-right: 20px;
+}
+
+.al-table tbody td:last-child {
+    text-align: right;
+    padding-right: 16px;
+}
+
+/* Botón ver perfil */
+.al-ver-perfil {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 13px;
+    background: rgba(107, 143, 255, 0.12);
+    border: 1px solid rgba(107, 143, 255, 0.28);
+    border-radius: 8px;
+    color: #6b8fff;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s, border-color 0.18s;
+    white-space: nowrap;
+}
+
+.al-ver-perfil:hover {
+    background: rgba(107, 143, 255, 0.22);
+    border-color: rgba(107, 143, 255, 0.45);
+}
+
+.al-ver-perfil svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+}
+
+/* ── Estado vacío ────────────────────────────────────────── */
+.al-empty {
+    text-align: center;
+    padding: 48px 20px;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.88rem;
+}
+
+.al-empty p { margin: 0; }
+
+/* ── Drawer overlay ──────────────────────────────────────── */
+.al-drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.52);
+    z-index: 300;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.al-drawer-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* ── Drawer panel ────────────────────────────────────────── */
+.al-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 400px;
+    height: 100vh;
+    background: rgba(16, 16, 22, 0.98);
+    border-left: 1px solid rgba(255, 255, 255, 0.11);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    z-index: 350;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.al-drawer.open {
+    transform: translateX(0);
+}
+
+/* ── Drawer header ───────────────────────────────────────── */
+.al-drawer-header {
+    padding: 18px 20px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
+}
+
+.al-drawer-close {
+    width: 30px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 7px;
+    color: rgba(255, 255, 255, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+    padding: 0;
+    margin-bottom: 16px;
+}
+
+.al-drawer-close:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+}
+
+.al-profile-hero {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.al-profile-av {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(77, 121, 255, 0.22);
+    border: 2px solid rgba(77, 121, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #6b8fff;
+    flex-shrink: 0;
+}
+
+.al-profile-hero-info { flex: 1; min-width: 0; }
+
+.al-profile-nombre {
+    margin: 0 0 6px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.92);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.al-profile-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+/* ── Drawer body ─────────────────────────────────────────── */
+.al-drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px 0 24px;
+}
+
+/* ── Sección interna del drawer ──────────────────────────── */
+.al-drawer-section {
+    padding: 18px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.al-drawer-section:last-child {
+    border-bottom: none;
+}
+
+.al-drawer-section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 14px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: rgba(255, 255, 255, 0.38);
+}
+
+.al-drawer-section-title svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    opacity: 0.7;
+}
+
+/* ── Filas de info ───────────────────────────────────────── */
+.al-info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.al-info-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.al-info-row--full {
+    flex-direction: column;
+    gap: 4px;
+}
+
+.al-info-label {
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.35);
+    white-space: nowrap;
+    min-width: 90px;
+    flex-shrink: 0;
+    padding-top: 1px;
+}
+
+.al-info-val {
+    font-size: 0.86rem;
+    color: rgba(255, 255, 255, 0.82);
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.al-info-val--block {
+    display: block;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.84rem;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.5;
+}
+
+/* ── Grid de evaluación ──────────────────────────────────── */
+.al-eval-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.al-eval-stat {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.al-eval-label {
+    font-size: 0.69rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.33);
+}
+
+.al-eval-val {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.1;
+}
+
+/* FMS score colors */
+.al-fms-green  { color: #6bff6b; }
+.al-fms-yellow { color: #f1c40f; }
+.al-fms-red    { color: #ff6b6b; }
+
+/* ── Link de sección ─────────────────────────────────────── */
+.al-link-sec {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(107, 143, 255, 0.8);
+    text-decoration: none;
+    transition: color 0.18s;
+}
+
+.al-link-sec:hover { color: #6b8fff; }
+
+.al-link-sec svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* ── Rutina asignada ─────────────────────────────────────── */
+.al-rutina-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.al-rutina-nombre {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.82);
+    flex: 1;
+}
+
+.al-btn-editar-rutina {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 13px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.79rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.al-btn-editar-rutina:hover {
+    background: rgba(255, 255, 255, 0.13);
+    color: #fff;
+}
+
+.al-btn-editar-rutina svg {
+    width: 13px;
+    height: 13px;
+}
+
+/* ── Toast ───────────────────────────────────────────────── */
+.al-toast {
+    position: fixed;
+    bottom: 26px;
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    background: rgba(18, 18, 24, 0.97);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 11px 20px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.84rem;
+    font-weight: 500;
+    z-index: 500;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.22s, transform 0.22s;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.al-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.al-toast.toast-ok   { border-color: rgba(27,190,12,0.4);   color: #6bff6b; }
+.al-toast.toast-warn { border-color: rgba(255,166,0,0.4);   color: #ffb347; }
+.al-toast.toast-info { border-color: rgba(107,143,255,0.4); color: #6b8fff; }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .al-page-header { flex-direction: column; align-items: flex-start; }
+    .al-btn-nuevo   { width: 100%; justify-content: center; }
+    .al-search-wrap { max-width: 100%; }
+
+    .al-drawer {
+        width: 100vw;
+        border-left: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        top: auto;
+        bottom: 0;
+        height: 92vh;
+        border-radius: 18px 18px 0 0;
+        transform: translateY(100%);
+    }
+
+    .al-drawer.open { transform: translateY(0); }
+}

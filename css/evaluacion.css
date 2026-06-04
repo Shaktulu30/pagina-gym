@@ -1,0 +1,862 @@
+/* evaluacion.css — Nueva Evaluación
+   Complementa style.css y profesor.css.
+*/
+
+/* ── Fila superior ───────────────────────────────────────── */
+.ev-toprow {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.ev-page-title {
+    margin: 0 0 4px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.ev-page-sub {
+    margin: 0;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.36);
+    text-transform: capitalize;
+}
+
+.ev-toprow-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+.ev-btn-cargar,
+.ev-btn-guardar {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    white-space: nowrap;
+}
+
+.ev-btn-cargar {
+    background: rgba(107, 143, 255, 0.14);
+    border: 1px solid rgba(107, 143, 255, 0.3);
+    color: #6b8fff;
+}
+
+.ev-btn-cargar:hover {
+    background: rgba(107, 143, 255, 0.24);
+    border-color: rgba(107, 143, 255, 0.5);
+}
+
+.ev-btn-guardar {
+    background: rgba(27, 190, 12, 0.15);
+    border: 1px solid rgba(27, 190, 12, 0.3);
+    color: #6bff6b;
+}
+
+.ev-btn-guardar:hover {
+    background: rgba(27, 190, 12, 0.26);
+    border-color: rgba(27, 190, 12, 0.5);
+}
+
+.ev-btn-cargar svg,
+.ev-btn-guardar svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+}
+
+/* ── Cards ───────────────────────────────────────────────── */
+.ev-card {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    padding: 22px 24px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
+}
+
+.ev-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.ev-card-header-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ev-card-header-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.ev-icon-blue   { background: rgba(77, 121, 255, 0.18);  color: #6b8fff; }
+.ev-icon-green  { background: rgba(27, 190, 12, 0.18);   color: #6bff6b; }
+.ev-icon-orange { background: rgba(230, 100, 30, 0.18);  color: #e6793e; }
+
+.ev-card-title {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.82);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex: 1;
+}
+
+/* Card footer (acciones al pie) */
+.ev-card-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    flex-wrap: wrap;
+}
+
+/* ── Formulario ──────────────────────────────────────────── */
+.ev-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 20px;
+}
+
+.ev-form-grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.ev-form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.ev-form-row--full {
+    grid-column: 1 / -1;
+}
+
+.ev-form-row label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.ev-form-row input,
+.ev-form-row select,
+.ev-form-row textarea {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 9px;
+    padding: 10px 12px;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 0.87rem;
+    outline: none;
+    transition: border-color 0.18s, background 0.18s;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.ev-form-row input[type="date"] {
+    color-scheme: dark;
+}
+
+.ev-form-row input::placeholder,
+.ev-form-row textarea::placeholder {
+    color: rgba(255, 255, 255, 0.22);
+}
+
+.ev-form-row input:focus,
+.ev-form-row select:focus,
+.ev-form-row textarea:focus {
+    border-color: rgba(107, 143, 255, 0.48);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Botones de objetivo ─────────────────────────────────── */
+.ev-objetivo-group {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+.ev-obj-btn {
+    flex: 1;
+    padding: 9px 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 9px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s, border-color 0.18s, color 0.18s;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.ev-obj-btn:hover {
+    background: rgba(255, 255, 255, 0.11);
+    color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.22);
+}
+
+.ev-obj-btn--active {
+    background: rgba(107, 143, 255, 0.18);
+    border-color: rgba(107, 143, 255, 0.45);
+    color: #6b8fff;
+}
+
+/* Valor calculado (solo lectura) */
+.ev-readonly {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 9px;
+    padding: 10px 12px;
+    font-size: 0.86rem;
+    color: rgba(255, 255, 255, 0.5);
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.ev-readonly--ok {
+    background: rgba(27, 190, 12, 0.1);
+    border-color: rgba(27, 190, 12, 0.28);
+    color: #6bff6b;
+}
+
+.ev-readonly--warn {
+    background: rgba(230, 126, 34, 0.1);
+    border-color: rgba(230, 126, 34, 0.28);
+    color: #e67e22;
+}
+
+/* ── FMS Badge (total en el header) ─────────────────────── */
+.ev-fms-badge {
+    margin-left: auto;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 6px 14px;
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.ev-fms-badge-val {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1;
+}
+
+.ev-fms-badge-max {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.32);
+    font-weight: 600;
+}
+
+.ev-fms-badge--green { background: rgba(27,190,12,0.15);    border-color: rgba(27,190,12,0.35); }
+.ev-fms-badge--green .ev-fms-badge-val { color: #6bff6b; }
+.ev-fms-badge--yellow { background: rgba(241,196,15,0.15);  border-color: rgba(241,196,15,0.35); }
+.ev-fms-badge--yellow .ev-fms-badge-val { color: #f1c40f; }
+.ev-fms-badge--red   { background: rgba(255,77,77,0.15);    border-color: rgba(255,77,77,0.35); }
+.ev-fms-badge--red   .ev-fms-badge-val { color: #ff6b6b; }
+
+/* ── Tabla FMS ───────────────────────────────────────────── */
+.ev-table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -4px;
+    padding: 0 4px;
+}
+
+.ev-fms-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 580px;
+}
+
+/* Cabeceras */
+.ev-fms-table thead th {
+    text-align: left;
+    font-size: 0.69rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: rgba(255, 255, 255, 0.34);
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.ev-th-num    { width: 36px;  text-align: center; }
+.ev-th-prueba { min-width: 160px; }
+.ev-th-side   { width: 148px; }
+.ev-th-score  { width: 80px;  text-align: center; }
+.ev-th-cl     { width: 64px;  text-align: center; }
+
+/* Filas */
+.ev-fms-table tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background 0.15s;
+}
+
+.ev-fms-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.ev-fms-table tbody td {
+    padding: 11px 10px;
+    vertical-align: middle;
+}
+
+.ev-td-num {
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.26);
+}
+
+.ev-td-name { padding-right: 6px; }
+
+.ev-fms-nombre {
+    margin: 0 0 2px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.3;
+}
+
+.ev-fms-en {
+    margin: 0;
+    font-size: 0.71rem;
+    color: rgba(255, 255, 255, 0.3);
+    font-style: italic;
+}
+
+.ev-td-chips {
+    padding: 8px 6px;
+}
+
+/* Cuando el test es unilateral (colspan=2) centrar el chip group */
+.ev-td-chips--uni {
+    text-align: center;
+}
+
+.ev-td-chips--uni .ev-chip-group {
+    justify-content: center;
+}
+
+/* ── Chip group ──────────────────────────────────────────── */
+.ev-chip-group {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+/* ── Chip individual ─────────────────────────────────────── */
+.ev-chip {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.16s, border-color 0.16s, color 0.16s, transform 0.12s;
+    flex-shrink: 0;
+    padding: 0;
+    line-height: 1;
+}
+
+.ev-chip:hover {
+    background: rgba(255, 255, 255, 0.13);
+    color: rgba(255, 255, 255, 0.8);
+    transform: scale(1.08);
+}
+
+/* Chip activo — 0: dolor → rojo */
+.ev-chip--active.ev-chip--zero {
+    background: rgba(255, 77, 77, 0.22);
+    border-color: rgba(255, 77, 77, 0.55);
+    color: #ff6b6b;
+    transform: scale(1.08);
+}
+
+/* Chip activo — 1: no puede → naranja */
+.ev-chip--active.ev-chip--one {
+    background: rgba(230, 100, 30, 0.22);
+    border-color: rgba(230, 100, 30, 0.55);
+    color: #e6793e;
+    transform: scale(1.08);
+}
+
+/* Chip activo — 2: con compensación → amarillo-verde */
+.ev-chip--active.ev-chip--two {
+    background: rgba(180, 210, 30, 0.2);
+    border-color: rgba(180, 210, 30, 0.5);
+    color: #b4d21e;
+    transform: scale(1.08);
+}
+
+/* Chip activo — 3: correcto → verde */
+.ev-chip--active.ev-chip--three {
+    background: rgba(27, 190, 12, 0.2);
+    border-color: rgba(27, 190, 12, 0.5);
+    color: #6bff6b;
+    transform: scale(1.08);
+}
+
+/* ── Columna puntaje ─────────────────────────────────────── */
+.ev-td-score {
+    text-align: center;
+}
+
+.ev-score-val {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 800;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.32);
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.ev-score-0 { background: rgba(255,77,77,0.16);    border-color: rgba(255,77,77,0.38);    color: #ff6b6b; }
+.ev-score-1 { background: rgba(230,100,30,0.16);   border-color: rgba(230,100,30,0.38);   color: #e6793e; }
+.ev-score-2 { background: rgba(180,210,30,0.16);   border-color: rgba(180,210,30,0.38);   color: #b4d21e; }
+.ev-score-3 { background: rgba(27,190,12,0.18);    border-color: rgba(27,190,12,0.42);    color: #6bff6b; }
+
+/* ── Clearing test button ────────────────────────────────── */
+.ev-td-cl {
+    text-align: center;
+}
+
+.ev-cl-none {
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 0.9rem;
+}
+
+.ev-cl-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    color: rgba(255, 255, 255, 0.38);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.18s, border-color 0.18s, color 0.18s;
+    padding: 0;
+}
+
+.ev-cl-btn:hover {
+    background: rgba(255, 255, 255, 0.11);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.ev-cl-btn--pos {
+    background: rgba(255, 77, 77, 0.18);
+    border-color: rgba(255, 77, 77, 0.45);
+    color: #ff6b6b;
+}
+
+.ev-cl-btn--pos:hover {
+    background: rgba(255, 77, 77, 0.28);
+}
+
+/* ── Fila total FMS ──────────────────────────────────────── */
+.ev-fms-total-row td {
+    border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-bottom: none !important;
+    background: rgba(255, 255, 255, 0.03);
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.ev-fms-total-label {
+    text-align: right;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding-right: 12px !important;
+}
+
+.ev-fms-total-cell {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+}
+
+.ev-fms-total-max {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.28);
+    margin-left: 1px;
+}
+
+.ev-total-green .ev-fms-total-cell,
+.ev-fms-total-cell.ev-total-green { color: #6bff6b; }
+.ev-total-yellow .ev-fms-total-cell,
+.ev-fms-total-cell.ev-total-yellow { color: #f1c40f; }
+.ev-total-red .ev-fms-total-cell,
+.ev-fms-total-cell.ev-total-red   { color: #ff6b6b; }
+
+/* ── Leyenda FMS ─────────────────────────────────────────── */
+.ev-fms-leyenda {
+    margin: 14px 0 0;
+    font-size: 0.74rem;
+    color: rgba(255, 255, 255, 0.34);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 0;
+    align-items: center;
+    line-height: 1.6;
+}
+
+.ev-leyenda-item { display: inline; }
+.ev-leyenda-sep  { margin: 0 7px; opacity: 0.35; }
+
+.ev-ley-0 { color: rgba(255, 100, 100, 0.7); }
+.ev-ley-1 { color: rgba(230, 120, 50, 0.7); }
+.ev-ley-2 { color: rgba(180, 210, 50, 0.7); }
+.ev-ley-3 { color: rgba(107, 255, 107, 0.7); }
+
+.ev-cl-pos-ex {
+    color: #ff6b6b;
+    font-weight: 700;
+}
+
+/* ── Overlay / Modal ─────────────────────────────────────── */
+.ev-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s;
+}
+
+.ev-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.ev-modal {
+    background: rgba(18, 18, 24, 0.97);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 420px;
+    max-height: 88vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 28px 64px rgba(0, 0, 0, 0.6);
+    transform: translateY(14px);
+    transition: transform 0.22s;
+}
+
+.ev-overlay.open .ev-modal {
+    transform: translateY(0);
+}
+
+.ev-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
+}
+
+.ev-modal-title {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.ev-modal-close {
+    width: 30px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 7px;
+    color: rgba(255, 255, 255, 0.48);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.ev-modal-close:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+}
+
+/* Búsqueda dentro del modal */
+.ev-modal-search {
+    position: relative;
+    padding: 14px 16px 10px;
+    flex-shrink: 0;
+}
+
+.ev-modal-search svg {
+    position: absolute;
+    left: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    color: rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+}
+
+.ev-modal-search input {
+    width: 100%;
+    padding: 9px 12px 9px 34px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 9px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.86rem;
+    outline: none;
+    transition: border-color 0.18s;
+    font-family: inherit;
+}
+
+.ev-modal-search input::placeholder { color: rgba(255, 255, 255, 0.25); }
+
+.ev-modal-search input:focus {
+    border-color: rgba(107, 143, 255, 0.45);
+}
+
+/* Lista de alumnos */
+.ev-alumno-list {
+    list-style: none;
+    margin: 0;
+    padding: 6px 8px 14px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.ev-alumno-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.16s;
+}
+
+.ev-alumno-item:hover,
+.ev-alumno-item:focus {
+    background: rgba(255, 255, 255, 0.07);
+    outline: none;
+}
+
+.ev-alumno-av {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(77, 121, 255, 0.2);
+    border: 1px solid rgba(77, 121, 255, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #6b8fff;
+    flex-shrink: 0;
+}
+
+.ev-alumno-info { flex: 1; min-width: 0; }
+
+.ev-alumno-nombre {
+    margin: 0 0 2px;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ev-alumno-obj {
+    margin: 0;
+    font-size: 0.74rem;
+    color: rgba(255, 255, 255, 0.36);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ── Fila guardar ficha ──────────────────────────────────── */
+.ev-guardar-row {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.ev-btn-guardar-ficha {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    background: rgba(27, 190, 12, 0.16);
+    border: 1px solid rgba(27, 190, 12, 0.35);
+    border-radius: 12px;
+    color: #6bff6b;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+.ev-btn-guardar-ficha:hover {
+    background: rgba(27, 190, 12, 0.26);
+    border-color: rgba(27, 190, 12, 0.55);
+    transform: translateY(-1px);
+}
+
+.ev-btn-guardar-ficha svg {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+}
+
+/* ── Toast ───────────────────────────────────────────────── */
+.ev-toast {
+    position: fixed;
+    bottom: 26px;
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    background: rgba(18, 18, 24, 0.97);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 11px 20px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.84rem;
+    font-weight: 500;
+    z-index: 500;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.22s, transform 0.22s;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.ev-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.ev-toast.toast-ok   { border-color: rgba(27,190,12,0.4);    color: #6bff6b; }
+.ev-toast.toast-warn { border-color: rgba(255,166,0,0.4);    color: #ffb347; }
+.ev-toast.toast-info { border-color: rgba(107,143,255,0.4);  color: #6b8fff; }
+
+/* ── Responsive: tablet ──────────────────────────────────── */
+@media (max-width: 960px) {
+    .ev-form-grid--3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .ev-card {
+        padding: 18px 16px;
+    }
+}
+
+/* ── Responsive: móvil ───────────────────────────────────── */
+@media (max-width: 600px) {
+    .ev-toprow {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .ev-toprow-actions {
+        width: 100%;
+    }
+
+    .ev-btn-cargar,
+    .ev-btn-guardar {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .ev-form-grid,
+    .ev-form-grid--3 {
+        grid-template-columns: 1fr;
+    }
+
+    .ev-fms-badge {
+        margin-left: 0;
+    }
+
+    .ev-card-header {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .ev-chip {
+        width: 28px;
+        height: 28px;
+        font-size: 0.78rem;
+    }
+
+    .ev-modal {
+        max-width: 100%;
+        max-height: 92vh;
+    }
+}

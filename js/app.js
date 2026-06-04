@@ -1,5 +1,88 @@
 'use strict';
 
+// ── Utilidades globales ─────────────────────────────────────
+
+function escapeHtml(s) {
+    return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
+function _toast(elId, baseClass, msg, tipo, duration) {
+    var t = document.getElementById(elId);
+    if (!t) return;
+    t.textContent = msg;
+    t.className = baseClass + ' toast-' + (tipo || 'ok') + ' show';
+    t.hidden = false;
+    clearTimeout(t._timer);
+    t._timer = setTimeout(function() {
+        t.classList.remove('show');
+        setTimeout(function() { t.hidden = true; }, 260);
+    }, duration || 3000);
+}
+
+// Fuente única de datos de alumnos — usada por turno, planificacion, evaluacion y alumnos
+var ALUMNOS_DATA = [
+    {
+        key: 'ms', nombre: 'María Sánchez',  iniciales: 'MS',
+        rutina: 'push-pull-met', rutinaLabel: 'Push / Pull / Metabólico',
+        pago: 'activo',  contacto: '(011) 4567-8901', objetivo: 'Cond. Física Gral',
+        lesion: 'Dolor en hombro izquierdo (crónico). Sin restricción completa.',
+        restriccion: { tipo: 'restriccion', texto: 'Hombro izq.' },
+        eval: { fms: 16, peso: 62.5, handgrip_d: 28.4, handgrip_i: 26.1 }
+    },
+    {
+        key: 'lg', nombre: 'Lucas García',   iniciales: 'LG',
+        rutina: 'empuje-rodilla', rutinaLabel: 'Empuje MS / Dom. Rodilla',
+        pago: 'pendiente', contacto: '(011) 3456-7890', objetivo: 'Cond. Física Dep.',
+        lesion: 'Rodilla derecha — condromalacia rotuliana. Evitar sentadilla profunda.',
+        restriccion: { tipo: 'restriccion', texto: 'Rodilla der.' },
+        eval: { fms: 12, peso: 78.0, handgrip_d: 42.1, handgrip_i: 39.8 }
+    },
+    {
+        key: 'vr', nombre: 'Valentina Ríos', iniciales: 'VR',
+        rutina: 'sin-asignar', rutinaLabel: 'Sin asignar',
+        pago: 'activo',  contacto: '(011) 5678-9012', objetivo: 'Rehab.',
+        lesion: 'Lumbalgia crónica. Protocolo de rehabilitación lumbar activo.',
+        restriccion: { tipo: 'rehab', texto: 'Rehab. lumbar' },
+        eval: { fms: 9, peso: 58.0, handgrip_d: 22.0, handgrip_i: 21.5 }
+    },
+    {
+        key: 'af', nombre: 'Ana Fernández',  iniciales: 'AF',
+        rutina: 'push-pull-met', rutinaLabel: 'Push / Pull / Metabólico',
+        pago: 'activo',  contacto: '(011) 2345-6789', objetivo: 'Cond. Física Gral',
+        lesion: 'Hombro izquierdo — tendinitis supraespinoso. Limitación en abducción >90°.',
+        restriccion: { tipo: 'restriccion', texto: 'Hombro izq.' },
+        eval: { fms: 14, peso: 55.5, handgrip_d: 25.2, handgrip_i: 23.8 }
+    },
+    {
+        key: 'rm', nombre: 'Roberto Méndez', iniciales: 'RM',
+        rutina: 'traccion-cadera', rutinaLabel: 'Tracción MS / Dom. Cadera',
+        pago: 'inactivo', contacto: '(011) 1234-5678', objetivo: 'Cond. Física Dep.',
+        lesion: 'Sin lesiones reportadas.',
+        restriccion: null,
+        eval: { fms: 18, peso: 85.0, handgrip_d: 51.3, handgrip_i: 48.9 }
+    },
+    {
+        key: 'cl', nombre: 'Carla López',    iniciales: 'CL',
+        rutina: 'metabolico', rutinaLabel: 'Metabólico / Zona Media',
+        pago: 'activo',  contacto: '(011) 6789-0123', objetivo: 'Cond. Física Gral',
+        lesion: 'Sin lesiones reportadas.',
+        restriccion: null,
+        eval: { fms: 15, peso: 67.0, handgrip_d: 29.1, handgrip_i: 27.4 }
+    },
+    {
+        key: 'jp', nombre: 'Juan Pérez',     iniciales: 'JP',
+        rutina: 'traccion-cadera', rutinaLabel: 'Tracción MS / Dom. Cadera',
+        pago: 'inactivo', contacto: '(011) 7890-1234', objetivo: 'Cond. Física Dep.',
+        lesion: 'Sin lesiones reportadas.',
+        restriccion: null,
+        eval: { fms: 17, peso: 82.5, handgrip_d: 46.8, handgrip_i: 44.2 }
+    }
+];
+
 document.addEventListener('DOMContentLoaded', function () {
     initAdminCheckbox();
     initProfileDropdown();
@@ -8,19 +91,22 @@ document.addEventListener('DOMContentLoaded', function () {
     initTurnoCards();
     initPlanificacion();
     initEditorRutina();
+    initBiblioteca();
+    initEvaluacion();
+    initAlumnos();
 });
 
 // ── Checkbox admin (index.html) ─────────────────────────────
 function initAdminCheckbox() {
+    const form     = document.getElementById('loginForm');
     const checkbox = document.getElementById('admin');
-    const loginLink = document.querySelector('.login-link');
-    if (!checkbox || !loginLink) return;
+    if (!form || !checkbox) return;
 
-    const ALUMNO_URL = 'paginas/inicio.html';
-    const ADMIN_URL  = 'paginas/turno.html';
-
-    checkbox.addEventListener('change', function () {
-        loginLink.href = this.checked ? ADMIN_URL : ALUMNO_URL;
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        window.location.href = checkbox.checked
+            ? 'paginas/turno.html'
+            : 'paginas/inicio.html';
     });
 }
 
@@ -89,15 +175,6 @@ function initTurnoCards() {
 
     const MOBILE_LIMIT = 3;
 
-    const ALUMNOS = {
-        ms: { nombre: 'María Sánchez',  iniciales: 'MS', rutina: 'push-pull-met',  restriccion: { tipo: 'restriccion', texto: 'Hombro izq.' } },
-        lg: { nombre: 'Lucas García',   iniciales: 'LG', rutina: 'empuje-rodilla', restriccion: { tipo: 'restriccion', texto: 'Rodilla der.' } },
-        vr: { nombre: 'Valentina Ríos', iniciales: 'VR', rutina: 'sin-asignar',    restriccion: { tipo: 'rehab',       texto: 'Rehab. lumbar' } },
-        af: { nombre: 'Ana Fernández',  iniciales: 'AF', rutina: 'push-pull-met' },
-        rm: { nombre: 'Roberto Méndez', iniciales: 'RM', rutina: 'traccion-cadera' },
-        cl: { nombre: 'Carla López',    iniciales: 'CL', rutina: 'metabolico' }
-    };
-
     const RUTINAS = {
         'push-pull-met': {
             nombre: 'Push / Pull / Metabólico',
@@ -150,6 +227,7 @@ function initTurnoCards() {
     const elRutina  = document.getElementById('modalRutinaNombre');
     const elBadge   = document.getElementById('modalBadge');
     const elBody    = document.getElementById('modalBody');
+    if (!closeBtn || !elAvatar || !elNombre || !elRutina || !elBadge || !elBody) return;
     let   lastFocused = null;
 
     function buildLista(ejercicios) {
@@ -182,7 +260,7 @@ function initTurnoCards() {
     }
 
     function openModal(key) {
-        const alumno = ALUMNOS[key];
+        const alumno = ALUMNOS_DATA.find(function(a) { return a.key === key; });
         if (!alumno) return;
         const rutina = RUTINAS[alumno.rutina] || RUTINAS['sin-asignar'];
 
@@ -246,16 +324,6 @@ function initPlanificacion() {
 
     var CAT_LABELS  = { fuerza: 'Fuerza', funcional: 'Funcional', cardio: 'Cardio', rehabilitacion: 'Rehabilitación' };
     var CAT_CLASSES = { fuerza: 'cat-fuerza', funcional: 'cat-funcional', cardio: 'cat-cardio', rehabilitacion: 'cat-rehabilitacion' };
-
-    var ALUMNOS = [
-        { key: 'ms', nombre: 'María Sánchez',  iniciales: 'MS' },
-        { key: 'lg', nombre: 'Lucas García',   iniciales: 'LG' },
-        { key: 'vr', nombre: 'Valentina Ríos', iniciales: 'VR' },
-        { key: 'af', nombre: 'Ana Fernández',  iniciales: 'AF' },
-        { key: 'rm', nombre: 'Roberto Méndez', iniciales: 'RM' },
-        { key: 'cl', nombre: 'Carla López',    iniciales: 'CL' },
-        { key: 'jp', nombre: 'Juan Pérez',     iniciales: 'JP' }
-    ];
 
     var PLANTILLAS_BASE = [
         {
@@ -468,18 +536,7 @@ function initPlanificacion() {
         return dias;
     }
 
-    function showToast(msg, tipo) {
-        var t = document.getElementById('plToast');
-        if (!t) return;
-        t.textContent = msg;
-        t.className = 'pl-toast toast-' + (tipo || 'ok') + ' show';
-        t.hidden = false;
-        clearTimeout(t._timer);
-        t._timer = setTimeout(function() {
-            t.classList.remove('show');
-            setTimeout(function() { t.hidden = true; }, 260);
-        }, 3000);
-    }
+    function showToast(msg, tipo) { _toast('plToast', 'pl-toast', msg, tipo); }
 
     function openOverlay(id) {
         var el = document.getElementById(id);
@@ -538,16 +595,19 @@ function initPlanificacion() {
         var catLabel = CAT_LABELS[p.categoria] || p.categoria;
         var catClass = CAT_CLASSES[p.categoria] || '';
         var total    = totalEjercicios(p);
+        var sNombre = escapeHtml(p.nombre);
+        var sMusculos = escapeHtml(p.musculos);
+        var sDesc = escapeHtml(p.descripcion);
         return '<article class="plantilla-card" data-id="' + p.id + '" role="listitem">' +
             '<div class="pcard-accent pcard-accent--' + p.categoria + '"></div>' +
-            '<div class="pcard-body" tabindex="0" role="button" aria-label="Ver plantilla ' + p.nombre + '">' +
+            '<div class="pcard-body" tabindex="0" role="button" aria-label="Ver plantilla ' + sNombre + '">' +
                 '<div class="pcard-top">' +
                     '<span class="pcat-badge ' + catClass + '">' + catLabel + '</span>' +
                     '<span class="pdias-badge">' + p.dias + ' días/sem</span>' +
                 '</div>' +
-                '<h3 class="pcard-nombre">' + p.nombre + '</h3>' +
-                '<p class="pcard-musculos">' + p.musculos + '</p>' +
-                '<p class="pcard-desc">' + p.descripcion + '</p>' +
+                '<h3 class="pcard-nombre">' + sNombre + '</h3>' +
+                '<p class="pcard-musculos">' + sMusculos + '</p>' +
+                '<p class="pcard-desc">' + sDesc + '</p>' +
                 '<div class="pcard-stats">' +
                     '<span>' + total + ' ejercicios</span>' +
                     '<span>~' + p.duracion + ' min/día</span>' +
@@ -657,7 +717,6 @@ function initPlanificacion() {
     // ── Modal crear / editar ─────────────────────────────────
     function openEdit(id) {
         editId = id || null;
-        diasEditVal = 3;
 
         var p = id ? plantillas.find(function(x) { return x.id === id; }) : null;
 
@@ -752,10 +811,10 @@ function initPlanificacion() {
         document.getElementById('asignarSubtitle').textContent = p.nombre;
 
         var list = document.getElementById('asignarList');
-        list.innerHTML = ALUMNOS.map(function(a) {
-            return '<div class="asignar-item" role="listitem" data-key="' + a.key + '" tabindex="0" aria-checked="false" role="checkbox">' +
-                '<div class="asignar-avatar">' + a.iniciales + '</div>' +
-                '<span class="asignar-nombre">' + a.nombre + '</span>' +
+        list.innerHTML = ALUMNOS_DATA.map(function(a) {
+            return '<div class="asignar-item" role="checkbox" data-key="' + a.key + '" tabindex="0" aria-checked="false">' +
+                '<div class="asignar-avatar">' + escapeHtml(a.iniciales) + '</div>' +
+                '<span class="asignar-nombre">' + escapeHtml(a.nombre) + '</span>' +
                 '<div class="asignar-check" aria-hidden="true"></div>' +
             '</div>';
         }).join('');
@@ -804,7 +863,7 @@ function initPlanificacion() {
         var nombres = [];
         selItems.forEach(function(item) {
             var key    = item.dataset.key;
-            var alumno = ALUMNOS.find(function(a) { return a.key === key; });
+            var alumno = ALUMNOS_DATA.find(function(a) { return a.key === key; });
             if (alumno) nombres.push(alumno.nombre.split(' ')[0]);
         });
         closeOverlay('asignarOverlay');
@@ -1025,18 +1084,7 @@ function initEditorRutina() {
     }
 
     // ── Toast ──────────────────────────────────────────────
-    function toast(msg, tipo) {
-        var t = document.getElementById('edToast');
-        if (!t) return;
-        t.textContent = msg;
-        t.className = 'ed-toast toast-' + (tipo || 'ok') + ' show';
-        t.hidden = false;
-        clearTimeout(t._t);
-        t._t = setTimeout(function() {
-            t.classList.remove('show');
-            setTimeout(function() { t.hidden = true; }, 260);
-        }, 2800);
-    }
+    function toast(msg, tipo) { _toast('edToast', 'ed-toast', msg, tipo, 2800); }
 
     // ── Modal open/close ───────────────────────────────────
     function openModal(id) {
@@ -1110,15 +1158,15 @@ function initEditorRutina() {
                 '</div>' +
                 '<span class="ed-ej-num">' + (i + 1) + '</span>' +
                 '<div class="ed-ej-info">' +
-                    '<p class="ed-ej-nombre">' + ej.nombre + '</p>' +
-                    '<p class="ed-ej-musculo">' + ej.musculo + '</p>' +
+                    '<p class="ed-ej-nombre">' + escapeHtml(ej.nombre) + '</p>' +
+                    '<p class="ed-ej-musculo">' + escapeHtml(ej.musculo) + '</p>' +
                     '<div class="ed-ej-chips">' +
-                        '<span class="ed-chip ed-chip--series">' + ej.series + ' ser.</span>' +
-                        '<span class="ed-chip ed-chip--reps">' + ej.reps + '</span>' +
-                        '<span class="ed-chip ed-chip--descanso">' + ej.descanso + '</span>' +
+                        '<span class="ed-chip ed-chip--series">' + escapeHtml(String(ej.series)) + ' ser.</span>' +
+                        '<span class="ed-chip ed-chip--reps">' + escapeHtml(ej.reps) + '</span>' +
+                        '<span class="ed-chip ed-chip--descanso">' + escapeHtml(ej.descanso) + '</span>' +
                     '</div>' +
                 '</div>' +
-                '<button class="ed-ej-edit-btn" data-idx="' + i + '" aria-label="Editar ' + ej.nombre + '">' +
+                '<button class="ed-ej-edit-btn" data-idx="' + i + '" aria-label="Editar ' + escapeHtml(ej.nombre) + '">' +
                     '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>' +
                 '</button>' +
             '</div>';
@@ -1331,4 +1379,640 @@ function initEditorRutina() {
     renderHeader();
     renderTabs();
     renderEjercicios();
+}
+
+// ── Biblioteca de ejercicios (biblioteca.html) ──────────────
+function initBiblioteca() {
+    var grid = document.getElementById('bibGrid');
+    if (!grid) return;
+
+    var PAT_LABELS = {
+        'empuje':         'Empuje',
+        'traccion':       'Tracción',
+        'dom-rodilla':    'Dom. Rodilla',
+        'core':           'Core',
+        'dom-cadera':     'Dom. Cadera',
+        'rehabilitacion': 'Rehabilitación'
+    };
+
+    var BASE_IMG = 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/';
+
+    var EJERCICIOS_BASE = [
+        // Empuje
+        { id: 'b01', nombre: 'Press de banca plano',       patron: 'empuje',         musculo: 'Pecho · Tríceps · Hombro ant.',  descripcion: 'Ejercicio básico de empuje horizontal para el desarrollo del pecho.',        foto: BASE_IMG + 'Barbell_Bench_Press_-_Medium_Grip/0.jpg' },
+        { id: 'b02', nombre: 'Press inclinado',             patron: 'empuje',         musculo: 'Pecho superior · Hombros',       descripcion: 'Variante inclinada que enfatiza la porción clavicular del pectoral.',        foto: BASE_IMG + 'Incline_Dumbbell_Press/0.jpg' },
+        { id: 'b03', nombre: 'Press militar con barra',     patron: 'empuje',         musculo: 'Hombros · Tríceps',              descripcion: 'Ejercicio compuesto de empuje vertical para el desarrollo de hombros.',     foto: BASE_IMG + 'Barbell_Shoulder_Press/0.jpg' },
+        { id: 'b04', nombre: 'Fondos en paralelas',         patron: 'empuje',         musculo: 'Pecho inferior · Tríceps',       descripcion: 'Ejercicio de peso corporal para pecho inferior y tríceps.',                 foto: BASE_IMG + 'Dips_-_Triceps_Version/0.jpg' },
+        // Tracción
+        { id: 'b05', nombre: 'Dominadas',                   patron: 'traccion',       musculo: 'Dorsal · Bíceps',                descripcion: 'Ejercicio de peso corporal fundamental para el desarrollo del dorsal.',     foto: BASE_IMG + 'Pullups/0.jpg' },
+        { id: 'b06', nombre: 'Remo con barra',              patron: 'traccion',       musculo: 'Espalda media · Bíceps',         descripcion: 'Ejercicio de tracción horizontal para el desarrollo de la espalda media.',  foto: BASE_IMG + 'Barbell_Row/0.jpg' },
+        { id: 'b07', nombre: 'Jalón al pecho',              patron: 'traccion',       musculo: 'Dorsal · Bíceps',                descripcion: 'Jalón en polea para trabajar el dorsal ancho y los bíceps.',                foto: BASE_IMG + 'Pulldown/0.jpg' },
+        { id: 'b08', nombre: 'Face pull',                   patron: 'traccion',       musculo: 'Deltoides post. · Manguito',     descripcion: 'Ejercicio correctivo para los rotadores externos y el deltoides posterior.', foto: BASE_IMG + 'Face_Pull/0.jpg' },
+        // Dominante Rodilla
+        { id: 'b09', nombre: 'Sentadilla con barra',        patron: 'dom-rodilla',    musculo: 'Cuádriceps · Glúteos · Core',    descripcion: 'El ejercicio rey del tren inferior. Alta demanda sobre cuádriceps y glúteos.', foto: BASE_IMG + 'Barbell_Full_Squat/0.jpg' },
+        { id: 'b10', nombre: 'Prensa de piernas',           patron: 'dom-rodilla',    musculo: 'Cuádriceps · Glúteos',           descripcion: 'Variante en máquina con menor demanda sobre la columna.',                   foto: BASE_IMG + 'Leg_Press/0.jpg' },
+        { id: 'b11', nombre: 'Zancadas',                    patron: 'dom-rodilla',    musculo: 'Cuádriceps · Glúteos',           descripcion: 'Ejercicio unilateral para piernas que mejora equilibrio y simetría.',       foto: BASE_IMG + 'Dumbbell_Lunge/0.jpg' },
+        { id: 'b12', nombre: 'Extensión de cuádriceps',     patron: 'dom-rodilla',    musculo: 'Cuádriceps · Aislamiento',       descripcion: 'Ejercicio de aislamiento para los cuádriceps en máquina.',                  foto: BASE_IMG + 'Leg_Extensions/0.jpg' },
+        // Core
+        { id: 'b13', nombre: 'Plancha abdominal',           patron: 'core',           musculo: 'Core · Transverso',              descripcion: 'Ejercicio isométrico de core para la estabilización lumbo-pélvica.',       foto: BASE_IMG + 'Plank/0.jpg' },
+        { id: 'b14', nombre: 'Dead bug',                    patron: 'core',           musculo: 'Core profundo · Transverso',     descripcion: 'Ejercicio de core con disociación de extremidades. Ideal para rehab.',      foto: BASE_IMG + 'Dead_Bug/0.jpg' },
+        { id: 'b15', nombre: 'Mountain climbers',           patron: 'core',           musculo: 'Core · Cardio',                  descripcion: 'Ejercicio dinámico de core con componente cardiovascular.',                  foto: BASE_IMG + 'Mountain_Climbers/0.jpg' },
+        { id: 'b16', nombre: 'Bird dog',                    patron: 'core',           musculo: 'Core · Glúteos · Espalda',       descripcion: 'Ejercicio de estabilización lumbar y activación glútea.',                   foto: BASE_IMG + 'Bird_Dog/0.jpg' },
+        // Dominante Cadera
+        { id: 'b17', nombre: 'Peso muerto rumano',          patron: 'dom-cadera',     musculo: 'Isquiotibiales · Glúteos',       descripcion: 'Ejercicio de bisagra de cadera con énfasis en isquiotibiales.',             foto: BASE_IMG + 'Romanian_Deadlift/0.jpg' },
+        { id: 'b18', nombre: 'Hip thrust con barra',        patron: 'dom-cadera',     musculo: 'Glúteos · Core',                 descripcion: 'El ejercicio más eficaz para la activación máxima del glúteo mayor.',       foto: BASE_IMG + 'Barbell_Hip_Thrust/0.jpg' },
+        { id: 'b19', nombre: 'Peso muerto convencional',    patron: 'dom-cadera',     musculo: 'Cadena posterior · Core',        descripcion: 'Ejercicio fundamental que involucra toda la cadena posterior.',             foto: BASE_IMG + 'Barbell_Deadlift/0.jpg' },
+        { id: 'b20', nombre: 'Curl de isquiotibiales',      patron: 'dom-cadera',     musculo: 'Isquiotibiales',                 descripcion: 'Ejercicio de aislamiento para isquiotibiales en máquina.',                  foto: BASE_IMG + 'Lying_Leg_Curls/0.jpg' },
+        // Rehabilitación
+        { id: 'b21', nombre: 'Puente de glúteos',           patron: 'rehabilitacion', musculo: 'Glúteos · Isquiotibiales',       descripcion: 'Ejercicio básico de activación glútea, ideal para principiantes y rehab.',  foto: BASE_IMG + 'Glute_Bridge/0.jpg' },
+        { id: 'b22', nombre: 'Cat-Cow',                     patron: 'rehabilitacion', musculo: 'Movilidad lumbar',               descripcion: 'Ejercicio de movilidad para la columna vertebral. Alivia tensión lumbar.',  foto: BASE_IMG + 'Cat_Stretch/0.jpg' },
+        { id: 'b23', nombre: 'Plancha lateral',             patron: 'rehabilitacion', musculo: 'Core lateral · Cuadrado lumb.', descripcion: 'Ejercicio isométrico para la estabilización lateral del core.',              foto: BASE_IMG + 'Side_Bridge/0.jpg' },
+        { id: 'b24', nombre: 'McGill curl-up',              patron: 'rehabilitacion', musculo: 'Core anterior',                  descripcion: 'Variante del curl-up de bajo estrés discal lumbar, propuesta por McGill.',  foto: BASE_IMG + 'Lying_Crunch/0.jpg' }
+    ];
+
+    // ── Estado ──────────────────────────────────────────────
+    var ejercicios  = EJERCICIOS_BASE.map(function(e) { return JSON.parse(JSON.stringify(e)); });
+    var filtroPatron = '';
+    var filtroBusq  = '';
+    var editId      = null;
+
+    // ── Helpers ─────────────────────────────────────────────
+    function uid() { return 'b-' + Date.now() + '-' + Math.floor(Math.random() * 1000); }
+
+    function showToast(msg, tipo) { _toast('bibToast', 'bib-toast', msg, tipo); }
+
+    function openOverlay() {
+        var el = document.getElementById('bibEditOverlay');
+        if (!el) return;
+        el.classList.add('open');
+        el.removeAttribute('aria-hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeOverlay() {
+        var el = document.getElementById('bibEditOverlay');
+        if (!el) return;
+        el.classList.remove('open');
+        el.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    // ── Render grid ──────────────────────────────────────────
+    function render() {
+        var lista = ejercicios.filter(function(ej) {
+            var okPat = !filtroPatron || ej.patron === filtroPatron;
+            var q     = filtroBusq.toLowerCase().trim();
+            var okQ   = !q || ej.nombre.toLowerCase().includes(q) || ej.musculo.toLowerCase().includes(q);
+            return okPat && okQ;
+        });
+
+        var sub = document.getElementById('bibSub');
+        if (sub) sub.textContent = ejercicios.length + ' ejercicio' + (ejercicios.length !== 1 ? 's' : '');
+
+        var empty = document.getElementById('bibEmpty');
+        if (empty) empty.hidden = lista.length > 0;
+
+        grid.innerHTML = lista.map(renderCard).join('');
+
+        grid.querySelectorAll('.bib-btn-editar').forEach(function(btn) {
+            btn.addEventListener('click', function() { openEdit(btn.dataset.id); });
+        });
+    }
+
+    function renderCard(ej) {
+        var patLabel = PAT_LABELS[ej.patron] || ej.patron;
+        var sNombre  = escapeHtml(ej.nombre);
+        var sMusculo = escapeHtml(ej.musculo);
+        var sFoto    = escapeHtml(ej.foto || '');
+        return '<article class="bib-card" role="listitem">' +
+            '<div class="bib-card-img" id="img-' + ej.id + '">' +
+                '<img src="' + sFoto + '" alt="' + sNombre + '" ' +
+                    'onerror="document.getElementById(\'img-' + ej.id + '\').classList.add(\'bib-img-err\')">' +
+                '<span class="bib-pat-badge pat-' + ej.patron + '">' + patLabel + '</span>' +
+            '</div>' +
+            '<div class="bib-card-body">' +
+                '<p class="bib-card-nombre">' + sNombre + '</p>' +
+                '<p class="bib-card-musculo">' + sMusculo + '</p>' +
+            '</div>' +
+            '<div class="bib-card-footer">' +
+                '<button class="bib-action-btn bib-btn-editar" data-id="' + ej.id + '" aria-label="Editar ' + sNombre + '">' +
+                    '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>' +
+                    'Editar ejercicio' +
+                '</button>' +
+            '</div>' +
+        '</article>';
+    }
+
+    // ── Modal nuevo / editar ─────────────────────────────────
+    function openEdit(id) {
+        editId = id || null;
+        var ej = id ? ejercicios.find(function(e) { return e.id === id; }) : null;
+
+        document.getElementById('bibEditTitle').textContent = ej ? 'Editar ejercicio' : 'Nuevo ejercicio';
+        document.getElementById('bibFNombre').value   = ej ? ej.nombre      : '';
+        document.getElementById('bibFPatron').value   = ej ? ej.patron      : 'empuje';
+        document.getElementById('bibFMusculo').value  = ej ? ej.musculo     : '';
+        document.getElementById('bibFFoto').value     = ej ? ej.foto        : '';
+        document.getElementById('bibFDesc').value     = ej ? ej.descripcion : '';
+
+        document.getElementById('bibFNombre').classList.remove('invalid');
+        document.getElementById('bibFNombreError').classList.remove('visible');
+
+        var delBtn = document.getElementById('bibEditDelete');
+        if (delBtn) delBtn.hidden = !ej;
+
+        openOverlay();
+        document.getElementById('bibFNombre').focus();
+    }
+
+    document.getElementById('bibEditForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var nombre = document.getElementById('bibFNombre').value.trim();
+        if (!nombre) {
+            document.getElementById('bibFNombre').classList.add('invalid');
+            document.getElementById('bibFNombreError').classList.add('visible');
+            document.getElementById('bibFNombre').focus();
+            return;
+        }
+
+        var datos = {
+            nombre:      nombre,
+            patron:      document.getElementById('bibFPatron').value,
+            musculo:     document.getElementById('bibFMusculo').value.trim() || 'Sin especificar',
+            foto:        document.getElementById('bibFFoto').value.trim() || '',
+            descripcion: document.getElementById('bibFDesc').value.trim() || ''
+        };
+
+        if (editId) {
+            var idx = ejercicios.findIndex(function(e) { return e.id === editId; });
+            if (idx !== -1) ejercicios[idx] = Object.assign({}, ejercicios[idx], datos);
+            showToast('Ejercicio actualizado.', 'ok');
+        } else {
+            ejercicios.push(Object.assign({ id: uid() }, datos));
+            showToast('Ejercicio creado.', 'ok');
+        }
+
+        closeOverlay();
+        render();
+    });
+
+    document.getElementById('bibEditDelete').addEventListener('click', function() {
+        if (!editId) return;
+        var ej = ejercicios.find(function(e) { return e.id === editId; });
+        ejercicios = ejercicios.filter(function(e) { return e.id !== editId; });
+        closeOverlay();
+        render();
+        showToast((ej ? '"' + ej.nombre + '"' : 'Ejercicio') + ' eliminado.', 'warn');
+    });
+
+    document.getElementById('bibEditClose').addEventListener('click',  closeOverlay);
+    document.getElementById('bibEditCancel').addEventListener('click', closeOverlay);
+    document.getElementById('bibEditOverlay').addEventListener('click', function(e) {
+        if (e.target === this) closeOverlay();
+    });
+
+    // ── Filtros ──────────────────────────────────────────────
+    document.querySelectorAll('.bib-pill').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            filtroPatron = btn.dataset.patron;
+            document.querySelectorAll('.bib-pill').forEach(function(b) {
+                b.classList.toggle('bib-pill--active', b === btn);
+                b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+            });
+            render();
+        });
+    });
+
+    var bibSearch = document.getElementById('bibSearch');
+    if (bibSearch) {
+        bibSearch.addEventListener('input', function() {
+            filtroBusq = bibSearch.value;
+            render();
+        });
+    }
+
+    // ── Botón nuevo ejercicio ────────────────────────────────
+    var btnNuevo = document.getElementById('btnNuevoEjercicio');
+    if (btnNuevo) btnNuevo.addEventListener('click', function() { openEdit(null); });
+
+    // ── Escape global ────────────────────────────────────────
+    document.addEventListener('keydown', function(e) {
+        if (e.key !== 'Escape') return;
+        var overlay = document.getElementById('bibEditOverlay');
+        if (overlay && overlay.classList.contains('open')) closeOverlay();
+    });
+
+    // ── Render inicial ───────────────────────────────────────
+    render();
+}
+
+// ── Evaluación FMS + Handgrip (evaluacion.html) ─────────────
+function initEvaluacion() {
+    if (!document.getElementById('fmsTable')) return;
+
+    var FMS = [
+        { id: 'ds',   bilateral: false, clearing: false },
+        { id: 'hs',   bilateral: true,  clearing: false },
+        { id: 'il',   bilateral: true,  clearing: false },
+        { id: 'sm',   bilateral: true,  clearing: true  },
+        { id: 'aslr', bilateral: true,  clearing: false },
+        { id: 'tsp',  bilateral: false, clearing: true  },
+        { id: 'rs',   bilateral: true,  clearing: true  }
+    ];
+
+    var CHIP_CLASSES = ['ev-chip--zero', 'ev-chip--one', 'ev-chip--two', 'ev-chip--three'];
+
+    var scores = {};
+    FMS.forEach(function(t) { scores[t.id] = { d: null, i: null, cl: 'none' }; });
+
+    // Fecha de hoy
+    var sub = document.getElementById('evFechaHoy');
+    if (sub) {
+        sub.textContent = new Date().toLocaleDateString('es-AR', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        });
+    }
+
+    // Toast
+    function toast(msg, tipo) { _toast('evToast', 'ev-toast', msg, tipo, 3200); }
+
+    // Calcular puntaje de un test
+    function getTestScore(testId) {
+        var cfg = FMS.find(function(t) { return t.id === testId; });
+        var s   = scores[testId];
+        if (!cfg) return null;
+        if (cfg.clearing && s.cl === '+') return 0;
+        if (cfg.bilateral) {
+            if (s.d === null || s.i === null) return null;
+            return Math.min(s.d, s.i);
+        }
+        return s.d;
+    }
+
+    // Actualizar celda de puntaje de un test
+    function updateTestScore(testId) {
+        var val = getTestScore(testId);
+        var el  = document.getElementById('fms-s-' + testId);
+        if (!el) return;
+        if (val === null) {
+            el.textContent = '—';
+            el.className = 'ev-score-val';
+        } else {
+            el.textContent = val;
+            el.className = 'ev-score-val ev-score-' + val;
+        }
+        updateTotal();
+    }
+
+    // Actualizar total FMS
+    function updateTotal() {
+        var total = 0;
+        var complete = true;
+        FMS.forEach(function(t) {
+            var val = getTestScore(t.id);
+            if (val === null) complete = false;
+            else total += val;
+        });
+
+        var totalCell = document.getElementById('fmsTotalCell');
+        if (totalCell) {
+            if (!complete) {
+                totalCell.innerHTML = '—<span class="ev-fms-total-max">/21</span>';
+                totalCell.className = 'ev-td-score ev-fms-total-cell';
+            } else {
+                var cat = total >= 14 ? 'green' : total >= 10 ? 'yellow' : 'red';
+                totalCell.innerHTML = total + '<span class="ev-fms-total-max">/21</span>';
+                totalCell.className = 'ev-td-score ev-fms-total-cell ev-total-' + cat;
+            }
+        }
+
+        var badge    = document.getElementById('evFmsBadge');
+        var badgeVal = document.getElementById('fmsTotalVal');
+        if (badge && badgeVal) {
+            if (!complete) {
+                badgeVal.textContent = '—';
+                badge.className = 'ev-fms-badge';
+            } else {
+                badgeVal.textContent = total;
+                var badgeCat = total >= 14 ? 'green' : total >= 10 ? 'yellow' : 'red';
+                badge.className = 'ev-fms-badge ev-fms-badge--' + badgeCat;
+            }
+        }
+    }
+
+    // Botones de objetivo
+    var objGroup = document.getElementById('evObjetivoGroup');
+    var objHidden = document.getElementById('evObjetivo');
+    if (objGroup) {
+        objGroup.querySelectorAll('.ev-obj-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var isActive = btn.classList.contains('ev-obj-btn--active');
+                objGroup.querySelectorAll('.ev-obj-btn').forEach(function(b) {
+                    b.classList.remove('ev-obj-btn--active');
+                });
+                if (!isActive) {
+                    btn.classList.add('ev-obj-btn--active');
+                    if (objHidden) objHidden.value = btn.dataset.val;
+                } else {
+                    if (objHidden) objHidden.value = '';
+                }
+            });
+        });
+    }
+
+    function setObjetivo(val) {
+        if (!objGroup) return;
+        objGroup.querySelectorAll('.ev-obj-btn').forEach(function(b) {
+            b.classList.toggle('ev-obj-btn--active', b.dataset.val === val);
+        });
+        if (objHidden) objHidden.value = val || '';
+    }
+
+    // Chips de puntaje
+    document.querySelectorAll('.ev-chip-group').forEach(function(group) {
+        group.addEventListener('click', function(e) {
+            var chip = e.target.closest('.ev-chip');
+            if (!chip) return;
+            var testId   = group.dataset.test;
+            var side     = group.dataset.side;
+            var val      = parseInt(chip.dataset.val, 10);
+            var wasActive = chip.classList.contains('ev-chip--active');
+
+            group.querySelectorAll('.ev-chip').forEach(function(c) {
+                c.classList.remove('ev-chip--active');
+                CHIP_CLASSES.forEach(function(cls) { c.classList.remove(cls); });
+            });
+
+            if (!wasActive) {
+                chip.classList.add('ev-chip--active', CHIP_CLASSES[val]);
+                scores[testId][side] = val;
+            } else {
+                scores[testId][side] = null;
+            }
+            updateTestScore(testId);
+        });
+    });
+
+    // Clearing test toggle
+    document.querySelectorAll('.ev-cl-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var testId = btn.dataset.test;
+            if (btn.dataset.state === 'none') {
+                btn.dataset.state = '+';
+                btn.textContent   = '+';
+                btn.className     = 'ev-cl-btn ev-cl-btn--pos';
+                btn.setAttribute('aria-label', 'Clearing POSITIVO — puntaje = 0');
+                scores[testId].cl = '+';
+            } else {
+                btn.dataset.state = 'none';
+                btn.textContent   = '—';
+                btn.className     = 'ev-cl-btn';
+                btn.setAttribute('aria-label', 'Clearing test — sin evaluar');
+                scores[testId].cl = 'none';
+            }
+            updateTestScore(testId);
+        });
+    });
+
+
+    // Modal cargar alumno
+    function openCargar() {
+        var overlay = document.getElementById('evCargarOverlay');
+        if (!overlay) return;
+        var search = document.getElementById('evCargarSearch');
+        if (search) search.value = '';
+        renderAlumnoList('');
+        overlay.classList.add('open');
+        overlay.removeAttribute('aria-hidden');
+        document.body.style.overflow = 'hidden';
+        if (search) search.focus();
+    }
+
+    function closeCargar() {
+        var overlay = document.getElementById('evCargarOverlay');
+        if (!overlay) return;
+        overlay.classList.remove('open');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    function renderAlumnoList(q) {
+        var lista = document.getElementById('evAlumnoList');
+        if (!lista) return;
+        var filtrados = ALUMNOS_DATA.filter(function(a) {
+            return !q || a.nombre.toLowerCase().includes(q.toLowerCase());
+        });
+        if (!filtrados.length) {
+            lista.innerHTML = '<li style="padding:16px 12px;color:rgba(255,255,255,0.3);font-size:0.84rem;text-align:center;">Sin resultados.</li>';
+            return;
+        }
+        lista.innerHTML = filtrados.map(function(a) {
+            var ini = escapeHtml(a.nombre.split(' ').map(function(p) { return p[0] || ''; }).join('').slice(0, 2).toUpperCase());
+            return '<li class="ev-alumno-item" data-key="' + a.key + '" tabindex="0" role="option">' +
+                '<div class="ev-alumno-av">' + ini + '</div>' +
+                '<div class="ev-alumno-info">' +
+                    '<p class="ev-alumno-nombre">' + escapeHtml(a.nombre) + '</p>' +
+                    '<p class="ev-alumno-obj">' + escapeHtml(a.objetivo) + '</p>' +
+                '</div></li>';
+        }).join('');
+
+        lista.querySelectorAll('.ev-alumno-item').forEach(function(item) {
+            function sel() {
+                var alumno = ALUMNOS_DATA.find(function(a) { return a.key === item.dataset.key; });
+                if (!alumno) return;
+                var n = document.getElementById('evNombre');
+                var c = document.getElementById('evContacto');
+                if (n) n.value = alumno.nombre;
+                if (c) c.value = alumno.contacto || '';
+                setObjetivo(alumno.objetivo || '');
+                closeCargar();
+                toast('Alumno "' + alumno.nombre + '" cargado.', 'ok');
+            }
+            item.addEventListener('click', sel);
+            item.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); sel(); }
+            });
+        });
+    }
+
+    ['btnCargarAlumno', 'btnCargarAlumno2'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('click', openCargar);
+    });
+
+    var cargarClose = document.getElementById('evCargarClose');
+    if (cargarClose) cargarClose.addEventListener('click', closeCargar);
+
+    var cargarOverlay = document.getElementById('evCargarOverlay');
+    if (cargarOverlay) cargarOverlay.addEventListener('click', function(e) {
+        if (e.target === this) closeCargar();
+    });
+
+    var cargarSearch = document.getElementById('evCargarSearch');
+    if (cargarSearch) cargarSearch.addEventListener('input', function() { renderAlumnoList(this.value.trim()); });
+
+
+    // Guardar ficha
+    var btnGuardar = document.getElementById('btnGuardar');
+    if (btnGuardar) {
+        btnGuardar.addEventListener('click', function() {
+            var nEl   = document.getElementById('evNombre');
+            var nombre = nEl ? nEl.value.trim() : '';
+            if (!nombre) {
+                toast('Completá el nombre del alumno antes de guardar.', 'warn');
+                if (nEl) nEl.focus();
+                return;
+            }
+            toast('Ficha de ' + nombre + ' guardada correctamente.', 'ok');
+        });
+    }
+
+    // Escape global
+    document.addEventListener('keydown', function(e) {
+        if (e.key !== 'Escape') return;
+        var overlay = document.getElementById('evCargarOverlay');
+        if (overlay && overlay.classList.contains('open')) closeCargar();
+    });
+}
+
+// ── Lista de alumnos (alumnos.html) ─────────────────────────
+function initAlumnos() {
+    var tbody = document.getElementById('alBody');
+    if (!tbody) return;
+
+    var PAGO_LABELS = { activo: 'Al día', pendiente: 'Pendiente', inactivo: 'Inactivo' };
+    var PAGO_BADGES = { activo: 'badge-activo', pendiente: 'badge-pendiente', inactivo: 'badge-inactivo' };
+
+    var filtroPago = '';
+    var filtroBusq = '';
+
+    // ── Toast ────────────────────────────────────────────────
+    function toast(msg, tipo) { _toast('alToast', 'al-toast', msg, tipo); }
+
+    // ── Render tabla ─────────────────────────────────────────
+    function render() {
+        var lista = ALUMNOS_DATA.filter(function(a) {
+            var okPago = !filtroPago || a.pago === filtroPago;
+            var q      = filtroBusq.toLowerCase().trim();
+            var okQ    = !q || a.nombre.toLowerCase().includes(q) || a.rutinaLabel.toLowerCase().includes(q);
+            return okPago && okQ;
+        });
+
+        var sub = document.getElementById('alSub');
+        if (sub) sub.textContent = ALUMNOS_DATA.length + ' alumno' + (ALUMNOS_DATA.length !== 1 ? 's' : '') + ' registrados';
+
+        var empty = document.getElementById('alEmpty');
+        if (empty) empty.hidden = lista.length > 0;
+
+        tbody.innerHTML = lista.map(function(a) {
+            var sNombre = escapeHtml(a.nombre);
+            return '<tr>' +
+                '<td>' +
+                    '<div class="alumno-nombre">' +
+                        '<div class="alumno-avatar">' + escapeHtml(a.iniciales) + '</div>' +
+                        sNombre +
+                    '</div>' +
+                '</td>' +
+                '<td>' + escapeHtml(a.rutinaLabel) + '</td>' +
+                '<td><span class="badge ' + PAGO_BADGES[a.pago] + '">' + PAGO_LABELS[a.pago] + '</span></td>' +
+                '<td>' +
+                    '<button class="al-ver-perfil" data-key="' + a.key + '" aria-label="Ver perfil de ' + sNombre + '">' +
+                        '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v1h20v-1c0-3.33-6.67-5-10-5z"/></svg>' +
+                        'Ver perfil' +
+                    '</button>' +
+                '</td>' +
+            '</tr>';
+        }).join('');
+
+        tbody.querySelectorAll('.al-ver-perfil').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var alumno = ALUMNOS_DATA.find(function(a) { return a.key === btn.dataset.key; });
+                if (alumno) openDrawer(alumno);
+            });
+        });
+    }
+
+    // ── Drawer ───────────────────────────────────────────────
+    function openDrawer(a) {
+        var drawer  = document.getElementById('alDrawer');
+        var overlay = document.getElementById('alDrawerOverlay');
+        if (!drawer || !overlay) return;
+
+        // Rellenar datos
+        document.getElementById('drAv').textContent      = a.iniciales;
+        document.getElementById('drNombre').textContent  = a.nombre;
+        document.getElementById('drContacto').textContent = a.contacto || '—';
+        document.getElementById('drObjetivo').textContent = a.objetivo || '—';
+        document.getElementById('drLesion').textContent  = a.lesion || '—';
+        document.getElementById('drRutina').textContent  = a.rutinaLabel || '—';
+
+        // Badge de pago en el hero
+        var badgesEl = document.getElementById('drBadges');
+        badgesEl.innerHTML = '<span class="badge ' + PAGO_BADGES[a.pago] + '">' + PAGO_LABELS[a.pago] + '</span>';
+
+        // Evaluación
+        var ev = a.eval;
+        var fmsEl = document.getElementById('drFms');
+        var fmsCat = ev.fms >= 14 ? 'al-fms-green' : ev.fms >= 10 ? 'al-fms-yellow' : 'al-fms-red';
+        fmsEl.textContent = ev.fms + '/21';
+        fmsEl.className   = 'al-eval-val ' + fmsCat;
+
+        document.getElementById('drPeso').textContent  = ev.peso + ' kg';
+        document.getElementById('drHandR').textContent = ev.handgrip_d + ' kg';
+        document.getElementById('drHandL').textContent = ev.handgrip_i + ' kg';
+
+        // Abrir
+        overlay.classList.add('open');
+        drawer.classList.add('open');
+        drawer.removeAttribute('aria-hidden');
+        document.body.style.overflow = 'hidden';
+        document.getElementById('alDrawerClose').focus();
+    }
+
+    function closeDrawer() {
+        var drawer  = document.getElementById('alDrawer');
+        var overlay = document.getElementById('alDrawerOverlay');
+        if (!drawer || !overlay) return;
+        overlay.classList.remove('open');
+        drawer.classList.remove('open');
+        drawer.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    document.getElementById('alDrawerClose').addEventListener('click', closeDrawer);
+    document.getElementById('alDrawerOverlay').addEventListener('click', closeDrawer);
+
+    // ── Filtros ──────────────────────────────────────────────
+    document.querySelectorAll('.al-pill').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            filtroPago = btn.dataset.pago;
+            document.querySelectorAll('.al-pill').forEach(function(b) {
+                b.classList.toggle('al-pill--active', b === btn);
+                b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+            });
+            render();
+        });
+    });
+
+    var alSearch = document.getElementById('alSearch');
+    if (alSearch) alSearch.addEventListener('input', function() {
+        filtroBusq = alSearch.value;
+        render();
+    });
+
+    // ── Nuevo alumno (placeholder) ───────────────────────────
+    var btnNuevo = document.getElementById('btnNuevoAlumno');
+    if (btnNuevo) btnNuevo.addEventListener('click', function() {
+        toast('Alta de alumnos — próximamente disponible.', 'info');
+    });
+
+    // ── Escape global ────────────────────────────────────────
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            var drawer = document.getElementById('alDrawer');
+            if (drawer && drawer.classList.contains('open')) closeDrawer();
+        }
+    });
+
+    render();
 }
